@@ -1,5 +1,5 @@
 import math
-from random import*
+from random import *
 
 
 
@@ -9,10 +9,18 @@ def validad_positivo(mensaje):
          cantidad = int(input("Ingrese un numero positivo: "))
     return cantidad;
 
+def insercion_cantidad():
+    cantidad = int(input("Ingrese el tamaño de la muestra (entre 1 y 1000000): "))
+    while cantidad <= 0 or cantidad > 1000000:
+        cantidad = int(input("Error, valor fuera de rango (0,1000000], reingrese: "))
+    vector = vector_cargado(cantidad)
+    return vector
+
+
 def vector_cargado(cantidad):
     vector = []
     for i in range(cantidad):
-        numero_random = random()
+        numero_random = round(random(), 4)
         vector.append(numero_random)
     return vector
 
@@ -44,12 +52,11 @@ def intervalo_valido():
             intervalos = int(input("Ingrese una cantidad de intervalo permitido: "))
     return intervalos
 
-def frecuencia_fo_fe(cantidad_apareciones, intervalo):
+def frecuencia_fo_fe(cantidad_apareciones, intervalo, n):
     vector_fo_fe = []
     for i in cantidad_apareciones:
-        cantidad_fo = i/intervalo
-        cantidad_fe = 1/intervalo
-        vector_fo_fe.append([cantidad_fo,cantidad_fe])
+        cantidad_fe = round(n/intervalo, 4)
+        vector_fo_fe.append([cantidad_fe])
     return vector_fo_fe
 
 
@@ -70,22 +77,23 @@ def crear_matriz(filas, columnas):
 def limites(min, max, intervalo):
     vector_limites = []
     rango = max - min
-    amplitud = rango / intervalo
+    amplitud = round(rango / intervalo, 4)
+    nuevo_minimo = min
+    nuevo_maximo = nuevo_minimo + amplitud
 
     for i in range(intervalo):
         if i == 0:
-            vector_limites.append([min, amplitud + min])
+            vector_limites.append([nuevo_minimo, nuevo_maximo])
+            nuevo_minimo = round(nuevo_maximo, 4)
+            nuevo_maximo = round(nuevo_minimo + amplitud, 4)
 
-            nuevo_minimo = amplitud + min
-            nuevo_maxio = amplitud + amplitud + min
-        if i == (intervalo - 1):
+        elif 0 < i < intervalo - 1:
+            vector_limites.append([nuevo_minimo, nuevo_maximo])
+            nuevo_minimo = round(nuevo_maximo, 4)
+            nuevo_maximo = round(nuevo_minimo + amplitud, 4)
+
+        elif i == (intervalo - 1):
             vector_limites.append([nuevo_minimo, max])
-
-        elif i not in [0, intervalo - 1]:
-
-            vector_limites.append([nuevo_minimo, nuevo_maxio])
-            nuevo_minimo += amplitud
-            nuevo_maxio = nuevo_minimo + amplitud
     return vector_limites
 
 
@@ -97,31 +105,30 @@ def contador_elementos(vector, vector_li_lf, max):
         for i in vector:
             if i >= li and i < lf:
                 contador += 1
-
         if lf == max:
             contador += 1
 
         contador_apariciones.append(contador)
     return contador_apariciones
 
-
-
-
-
 def vector_uniforme(vector, a, b):
     vector_uniforme = []
     for i in vector:
-        vector_uniforme.append(a + i * (b-a))
+        rnd_uniforme = a + i * (b-a)
+        vector_uniforme.append(round(rnd_uniforme, 4))
     return vector_uniforme
 
 
-def funcion_chi(frecuencia):
+def funcion_chi(frecuencia_observada, frecuencia_esperada):
     vector = []
 
-    for i in frecuencia:
-        fo, fe = i[0], i[1]
-        calculo = ((fo - fe) * (fo - fe)) / fe
-        vector.append(calculo)
+    for i in range(len(frecuencia_observada)):
+        fo = frecuencia_observada[i]
+        fe = frecuencia_esperada[i]
+        chi_calc = pow((fo - fe), 2) / fe
+        chi_calc_rounded = round(chi_calc, 4)
+        vector.append(chi_calc_rounded)
+
     return vector
 
 
@@ -129,6 +136,6 @@ def calcular_chi(funcion_chi_vector):
     contador = 0
     for i in funcion_chi_vector:
         contador += i
-    return contador
+    return round(contador, 4)
 
 

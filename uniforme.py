@@ -5,6 +5,7 @@ def punto_2(vector, variable_a, variable_b):
         cantidad_intervalo = intervalo_valido()
 
         simulador_uniforme = uniforme_calculadora(vector, variable_a, variable_b, cantidad_intervalo)
+        print(simulador_uniforme)
 
     if variable_b > variable_a:
         cantidad_intervalo = intervalo_valido()
@@ -20,12 +21,14 @@ def uniforme_calculadora(vector, variable_a, variable_b, cantidad_intervalo):
     limites_li_lf = limites(minimo, maximo, cantidad_intervalo)
     cantidad_apareciones = contador_elementos(vector_uniform, limites_li_lf, maximo)
 
-    frecuencia_apareciones = frecuencia_fo_fe(cantidad_apareciones, cantidad_intervalo)
+    frecuencia_apareciones = [(len(vector)/cantidad_intervalo) for _ in range(cantidad_intervalo)]
+    #frecuencia_apareciones = frecuencia_fo_fe(cantidad_apareciones, cantidad_intervalo, len(vector))
 
-    funcion_chi_vector = funcion_chi_uniforme(frecuencia_apareciones)
+    funcion_chi_vector = funcion_chi(cantidad_apareciones, frecuencia_apareciones)
     funcion_chi_valor = calcular_chi(funcion_chi_vector)
     print(funcion_chi_valor)
-    matriz = [vector_uniform, cantidad_intervalo, limites_li_lf, frecuencia_apareciones, funcion_chi_vector]
+    matriz = [vector_uniform, cantidad_intervalo, limites_li_lf, cantidad_apareciones ,frecuencia_apareciones, funcion_chi_vector]
+    print(matriz)
     return matriz
 
 
