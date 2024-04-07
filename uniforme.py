@@ -1,4 +1,4 @@
-from soporte import*
+from soporte import *
 
 def punto_2(vector, variable_a, variable_b):
     if variable_a > variable_b:
