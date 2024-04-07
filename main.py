@@ -1,4 +1,4 @@
-# This is a sample Python script.
+2# This is a sample Python script.
 import math
 
 # Press Mayús+F10 to execute it or replace it with your code.

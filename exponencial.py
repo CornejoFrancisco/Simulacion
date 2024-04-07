@@ -3,7 +3,8 @@ from soporte import*
 def exponencial_calculadora_land(vector, variable):
     vector_exponencial = []
     for i in vector:
-        vector_exponencial.append(-(1/variable)*(math.log(1-i)))
+        rnd_expo = -(1/variable)*(math.log(1-i))
+        vector_exponencial.append(round(rnd_expo, 4))
     return vector_exponencial
 
 
@@ -15,8 +16,8 @@ def exponencial_calculadora_expon(vector, variable):
 
 
 def exponencial_calculos(vector_exponencial, intervalo, lambd):
-    maximo = max(vector_exponencial)
-    minimo = min(vector_exponencial)
+    maximo = round(max(vector_exponencial),4)
+    minimo = round(min(vector_exponencial),4)
     vector_li, vector_ls = limites(minimo, maximo, intervalo)
     vector_fo_expo = frecuencia_obs(vector_exponencial, vector_li, vector_ls, maximo)
     vector_fe_expo = frecuencia_esp_expo(vector_li, vector_ls, lambd, len(vector_exponencial))

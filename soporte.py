@@ -88,7 +88,7 @@ def crear_matriz(filas, columnas):
 def limites(min, max, intervalo):
     vector_li = []
     vector_ls = []
-    rango = max - min
+    rango = round(max - min,4)
     amplitud = round(rango / intervalo, 4)
     nuevo_minimo = round(min, 4)
     nuevo_maximo = round(nuevo_minimo + amplitud, 4)
