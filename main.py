@@ -30,9 +30,8 @@ def principal(param):
             punto_2(vector, variable_a, variable_b)
         elif op == 2:
                 vector = insercion_cantidad()
-                print("1 - lambda")
-                print("2 - Media")
-                opcion = validad_positivo("Ingrese la opcion deseada: ")
+                opcion = menu_lambda_media()
+
                 if opcion == 1:
                     valor_ingresado = validad_positivo("Ingrese el valor de lambda: ")
                     punto_3(vector, valor_ingresado, opcion)

@@ -17,8 +17,8 @@ def exponencial_calculadora_expon(vector, variable):
 def exponencial_calculos(vector_exponencial, intervalo):
     maximo = max(vector_exponencial)
     minimo = min(vector_exponencial)
-    limites_li_lf = limites(minimo, maximo, intervalo)
-    cantidad_apareciones = contador_elementos(vector_exponencial, limites_li_lf, maximo)
+    vector_li, vector_ls = limites(minimo, maximo, intervalo)
+    cantidad_apareciones = contador_elementos(vector_exponencial, vector_li, vector_ls, maximo)
     frecuencia_apareciones = frecuencia_fo_fe(cantidad_apareciones, intervalo)
     funcion_chi_vector = funcion_chi(frecuencia_apareciones)
     funcion_chi_valor = calcular_chi(funcion_chi_vector)

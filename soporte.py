@@ -5,9 +5,17 @@ from random import *
 
 def validad_positivo(mensaje):
     cantidad = int(input(mensaje))
-    while cantidad <= 0 and cantidad >= 1000000:
-         cantidad = int(input("Ingrese un numero positivo: "))
+    while cantidad <= 0:
+         cantidad = int(input("Ingrese un valor positivo: "))
     return cantidad;
+
+def menu_lambda_media():
+    print("1 - lambda")
+    print("2 - Media")
+    opcion = int(input("Ingrese la opcion del menu: "))
+    while opcion <= 0 or opcion >= 3 :
+        opcion = int(input("Ingrese la opcion del menu: "))
+    return opcion
 
 def insercion_cantidad():
     cantidad = int(input("Ingrese el tamaño de la muestra (entre 1 y 1000000): "))
