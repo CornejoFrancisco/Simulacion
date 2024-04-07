@@ -1,4 +1,4 @@
 from scipy.stats import expon
 
-probabilidad = expon.cdf(0.0024, 1/5)
+probabilidad = round((expon.cdf(0.2205, scale= 1/5) - (expon.cdf(0.1115, scale= 1/5) )) * 100, 4)
 print(probabilidad)

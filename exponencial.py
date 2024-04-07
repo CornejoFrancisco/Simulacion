@@ -14,24 +14,26 @@ def exponencial_calculadora_expon(vector, variable):
     return vector_exponencial
 
 
-def exponencial_calculos(vector_exponencial, intervalo):
+def exponencial_calculos(vector_exponencial, intervalo, lambd):
     maximo = max(vector_exponencial)
     minimo = min(vector_exponencial)
     vector_li, vector_ls = limites(minimo, maximo, intervalo)
-    cantidad_apareciones = contador_elementos(vector_exponencial, vector_li, vector_ls, maximo)
-    frecuencia_apareciones = frecuencia_fo_fe(cantidad_apareciones, intervalo)
-    funcion_chi_vector = funcion_chi(frecuencia_apareciones)
+    vector_fo_expo = frecuencia_obs(vector_exponencial, vector_li, vector_ls, maximo)
+    vector_fe_expo = frecuencia_esp_expo(vector_li, vector_ls, lambd, len(vector_exponencial))
+    funcion_chi_vector = funcion_chi(vector_fo_expo, vector_fe_expo)
     funcion_chi_valor = calcular_chi(funcion_chi_vector)
+    matriz = [vector_exponencial, vector_li, vector_ls, vector_fo_expo, vector_fe_expo, funcion_chi_vector]
     print(funcion_chi_valor)
+    return matriz
 
 
 def punto_3(vector, variable, opcion):
     if opcion == 1:
         vector_exponencial = exponencial_calculadora_land(vector, variable)
         intervalos = intervalo_valido()
-        exponencial = exponencial_calculos(vector_exponencial, intervalos)
+        matriz = exponencial_calculos(vector_exponencial, intervalos, variable)
+        print(matriz)
 
-        print(vector_exponencial)
     if opcion == 2:
         vector_exponencial = exponencial_calculadora_expon(vector, variable)
         intervalos = intervalo_valido()

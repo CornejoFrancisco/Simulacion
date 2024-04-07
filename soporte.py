@@ -1,5 +1,6 @@
 import math
 from random import *
+from scipy.stats import expon
 
 
 
@@ -60,12 +61,14 @@ def intervalo_valido():
             intervalos = int(input("Ingrese una cantidad de intervalo permitido: "))
     return intervalos
 
-def frecuencia_fo_fe(cantidad_apareciones, intervalo, n):
-    vector_fo_fe = []
-    for i in cantidad_apareciones:
-        cantidad_fe = round(n/intervalo, 4)
-        vector_fo_fe.append([cantidad_fe])
-    return vector_fo_fe
+def frecuencia_esp_expo(vector_li, vector_ls, lambd, n):
+    vector_fe = []
+    for i in range(len(vector_li)):
+        li = vector_li[i]
+        ls = vector_ls[i]
+        fe = round((expon.cdf(ls, scale= 1/lambd ) - (expon.cdf(li, scale= 1/lambd) )) * n, 4)
+        vector_fe.append(fe)
+    return vector_fe
 
 
 def crear_matriz(filas, columnas):
@@ -109,7 +112,7 @@ def limites(min, max, intervalo):
     return vector_li, vector_ls
 
 
-def contador_elementos(vector,vector_li, vector_ls, max):
+def frecuencia_obs(vector,vector_li, vector_ls, max):
     contador_apariciones = []
     for i in range(len(vector_li)):
         li = vector_li[i]
