@@ -11,7 +11,8 @@ def exponencial_calculadora_land(vector, variable):
 def exponencial_calculadora_expon(vector, variable):
     vector_exponencial = []
     for i in vector:
-        vector_exponencial.append(-(variable) * (math.log(1 - i)))
+        rnd_expo = -(variable)*(math.log(1-i))
+        vector_exponencial.append(round(rnd_expo, 4))
     return vector_exponencial
 
 
