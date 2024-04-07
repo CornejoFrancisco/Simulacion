@@ -39,10 +39,10 @@ def principal(param):
                     valor_ingresado = validad_positivo("Ingrese el valor de media: ")
                     punto_3(vector, valor_ingresado, opcion)
         elif op == 3:
-            vector = insercion_cantidad()
+            cantidad = int(input("Ingrese la cantidad de numeros normalizados a generar: "))
             media = int(input("Ingrese el valor de la media: "))
             desviacion = int(input("Ingrese el valor de la desviacion: "))
-            punto_4(vector, media, desviacion)
+            punto_4(cantidad, media, desviacion)
 
         elif( op != 1 or op != 2 or op != 3 or op != 4):
             print("Se cierra el programa!! ")
