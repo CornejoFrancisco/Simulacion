@@ -20,7 +20,7 @@ def exponencial_calculos(vector_exponencial, intervalo):
     limites_li_lf = limites(minimo, maximo, intervalo)
     cantidad_apareciones = contador_elementos(vector_exponencial, limites_li_lf, maximo)
     frecuencia_apareciones = frecuencia_fo_fe(cantidad_apareciones, intervalo)
-    funcion_chi_vector = funcion_chi_uniforme(frecuencia_apareciones)
+    funcion_chi_vector = funcion_chi(frecuencia_apareciones)
     funcion_chi_valor = calcular_chi(funcion_chi_vector)
     print(funcion_chi_valor)
 

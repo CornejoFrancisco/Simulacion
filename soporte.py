@@ -115,7 +115,7 @@ def vector_uniforme(vector, a, b):
     return vector_uniforme
 
 
-def funcion_chi_uniforme(frecuencia):
+def funcion_chi(frecuencia):
     vector = []
 
     for i in frecuencia:
@@ -132,6 +132,3 @@ def calcular_chi(funcion_chi_vector):
     return contador
 
 
-
-def punto_4(vector):
-    pass

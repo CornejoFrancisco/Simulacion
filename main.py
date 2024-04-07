@@ -8,6 +8,7 @@ import math
 from soporte import*
 from uniforme import*
 from exponencial import*
+from normal import*
 
 def menu():
     print("1 - Ingrese la cantidad de numero de datos deseado ")
@@ -57,19 +58,16 @@ def principal(param):
                 print("No se cargo todavia el vector")
         elif op == 4:
             if cargado_numero:
+                media = int(input("Ingrese el valor de la media: "))
+                desviacion = int(input("Ingrese el valor de la desviacion: "))
+                punto_4(cantidad, media, desviacion)
 
-                punto_4(vector)
             else:
                 print("No se cargo todavia el vector")
         elif( op != 1 or op != 2 or op != 3 or op != 4):
             print("Se cierra el programa!! ")
             break
 
-
-
-
-
 if __name__ == '__main__':
     principal('__Simulacion__')
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
