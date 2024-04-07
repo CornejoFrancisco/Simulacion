@@ -18,16 +18,15 @@ def uniforme_calculadora(vector, variable_a, variable_b, cantidad_intervalo):
 
     minimo = min(vector_uniform)
     maximo = max(vector_uniform)
-    limites_li_lf = limites(minimo, maximo, cantidad_intervalo)
-    cantidad_apareciones = contador_elementos(vector_uniform, limites_li_lf, maximo)
+    limites_li_lf, vector_li, vector_ls = limites(minimo, maximo, cantidad_intervalo)
+    cantidad_apareciones = contador_elementos(vector_uniform, limites_li_lf, vector_li, vector_ls, maximo)
 
     frecuencia_apareciones = [(len(vector)/cantidad_intervalo) for _ in range(cantidad_intervalo)]
-    #frecuencia_apareciones = frecuencia_fo_fe(cantidad_apareciones, cantidad_intervalo, len(vector))
 
     funcion_chi_vector = funcion_chi(cantidad_apareciones, frecuencia_apareciones)
     funcion_chi_valor = calcular_chi(funcion_chi_vector)
     print(funcion_chi_valor)
-    matriz = [vector_uniform, cantidad_intervalo, limites_li_lf, cantidad_apareciones ,frecuencia_apareciones, funcion_chi_vector]
+    matriz = [vector_uniform, cantidad_intervalo, vector_li, vector_ls, cantidad_apareciones ,frecuencia_apareciones, funcion_chi_vector]
     print(matriz)
     return matriz
 

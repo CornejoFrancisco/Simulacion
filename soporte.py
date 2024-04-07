@@ -75,40 +75,46 @@ def crear_matriz(filas, columnas):
 #Esto lo que realiza es realizar los limites que se emplean para la observaciones
 #de los datos
 def limites(min, max, intervalo):
-    vector_limites = []
+    vector_li = []
+    vector_ls = []
     rango = max - min
     amplitud = round(rango / intervalo, 4)
-    nuevo_minimo = min
-    nuevo_maximo = nuevo_minimo + amplitud
+    nuevo_minimo = round(min, 4)
+    nuevo_maximo = round(nuevo_minimo + amplitud, 4)
 
     for i in range(intervalo):
         if i == 0:
-            vector_limites.append([nuevo_minimo, nuevo_maximo])
+            vector_li.append(nuevo_minimo)
+            vector_ls.append(nuevo_maximo)
             nuevo_minimo = round(nuevo_maximo, 4)
             nuevo_maximo = round(nuevo_minimo + amplitud, 4)
 
         elif 0 < i < intervalo - 1:
-            vector_limites.append([nuevo_minimo, nuevo_maximo])
+            vector_li.append(nuevo_minimo)
+            vector_ls.append(nuevo_maximo)
             nuevo_minimo = round(nuevo_maximo, 4)
             nuevo_maximo = round(nuevo_minimo + amplitud, 4)
 
         elif i == (intervalo - 1):
-            vector_limites.append([nuevo_minimo, max])
-    return vector_limites
+            vector_li.append(nuevo_minimo)
+            vector_ls.append(nuevo_maximo)
+    return vector_li, vector_ls
 
 
-def contador_elementos(vector, vector_li_lf, max):
+def contador_elementos(vector,vector_li, vector_ls, max):
     contador_apariciones = []
-    for limt in vector_li_lf:
-        li, lf = limt[0], limt[1]
+    for i in range(len(vector_li)):
+        li = vector_li[i]
+        ls = vector_ls[i]
         contador = 0
-        for i in vector:
-            if i >= li and i < lf:
-                contador += 1
-        if lf == max:
-            contador += 1
 
+        for i in vector:
+            if i >= li and i < ls:
+                contador += 1
+        if ls == max:
+            contador += 1
         contador_apariciones.append(contador)
+
     return contador_apariciones
 
 def vector_uniforme(vector, a, b):
