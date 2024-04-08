@@ -24,7 +24,8 @@ def exponencial_calculos(vector_exponencial, intervalo, lambd):
     vector_fe_expo = frecuencia_esp_expo(vector_li, vector_ls, lambd, len(vector_exponencial))
     funcion_chi_vector = funcion_chi(vector_fo_expo, vector_fe_expo)
     funcion_chi_valor = calcular_chi(funcion_chi_vector)
-    matriz = [vector_exponencial, vector_li, vector_ls, vector_fo_expo, vector_fe_expo, funcion_chi_vector]
+    matriz = [vector_exponencial, vector_li, vector_ls, vector_fo_expo, vector_fe_expo, funcion_chi_vector,
+              funcion_chi_valor, intervalo]
     print(funcion_chi_valor)
     return matriz
 
@@ -34,7 +35,7 @@ def punto_3(vector, variable, opcion):
         vector_exponencial = exponencial_calculadora_land(vector, variable)
         intervalos = intervalo_valido()
         matriz = exponencial_calculos(vector_exponencial, intervalos, variable)
-        print(matriz)
+        return matriz
 
     if opcion == 2:
         vector_exponencial = exponencial_calculadora_expon(vector, variable)

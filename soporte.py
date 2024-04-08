@@ -1,6 +1,6 @@
 import math
 from random import *
-from scipy.stats import expon
+from scipy.stats import expon, norm
 
 
 
@@ -67,6 +67,15 @@ def frecuencia_esp_expo(vector_li, vector_ls, lambd, n):
         li = vector_li[i]
         ls = vector_ls[i]
         fe = round((expon.cdf(ls, scale= 1/lambd ) - (expon.cdf(li, scale= 1/lambd) )) * n, 4)
+        vector_fe.append(fe)
+    return vector_fe
+
+def frecuencia_esp_norm(vector_li, vector_ls, media, desviacion, n):
+    vector_fe = []
+    for i in range(len(vector_li)):
+        li = vector_li[i]
+        ls = vector_ls[i]
+        fe = round(((norm.cdf(ls, loc=media, scale=desviacion)) - (norm.cdf(li, loc=media, scale=desviacion))) * n, 4)
         vector_fe.append(fe)
     return vector_fe
 
