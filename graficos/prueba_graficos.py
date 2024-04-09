@@ -1,13 +1,19 @@
-import matplotlib.pyplot as plt
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
 
-def grafico_histograma_frecuencias(vector_fo, nroIntervalos, vector_li_ls):
-    fig, ax = plt.subplots()
-    ax.hist(vector_fo)
-    plt.hist(vector_fo, bins=vector_li_ls, color='blue')
-    plt.show()
 
-def prueba_hist():
-    dataset = [10,20,30,40,30,20,10]
-    fig, ax = plt.subplots()
-    ax.hist(dataset, bins=10, color='blue')
-    plt.show()
+def grafico_histograma_frecuencias(vector_fo, nroIntervalos, minimo, maximo, amplitud, vector_li_ls):
+    fig = px.histogram(vector_fo)
+    fig.update_traces(xbins=dict(start=minimo, end=maximo, size=amplitud))
+    fig.update_xaxes(tickvals=vector_li_ls)
+    fig.show()
+
+def table(df):
+    fig = go.Figure(data=go.Table(
+        header = dict(values=list(df.columns)),
+        cells=dict(values=df.transpose().values.tolist())
+    ))
+    fig.show()
+
+

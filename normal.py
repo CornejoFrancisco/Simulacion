@@ -36,13 +36,13 @@ def vector_normalizado(cantidad, media, desviacion):
 def normal_calculos(vector_normal, intervalo, media, desviacion):
     maximo = max(vector_normal)
     minimo = min(vector_normal)
-    vector_li, vector_ls = limites(minimo, maximo, intervalo)
+    vector_li, vector_ls, amplitud = limites(minimo, maximo, intervalo)
     vector_fo_norm = frecuencia_obs(vector_normal, vector_li, vector_ls, maximo)
     vector_fe_norm = frecuencia_esp_norm(vector_li, vector_ls, media, desviacion, len(vector_normal))
     funcion_chi_vector = funcion_chi(vector_fo_norm, vector_fe_norm)
     funcion_chi_valor = calcular_chi(funcion_chi_vector)
-    matriz_normal = [vector_normal, vector_li, vector_ls, vector_fo_norm, vector_fe_norm, funcion_chi_vector,
-                     funcion_chi_valor, intervalo]
+    matriz = [vector, vector_uniform, vector_li, vector_ls, vector_fo_unif, vector_fe_unif, funcion_chi_vector,
+              funcion_chi_valor, cantidad_intervalo, minimo, maximo, amplitud]
     print(funcion_chi_valor)
     return matriz_normal
 

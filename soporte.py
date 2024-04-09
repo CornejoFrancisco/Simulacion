@@ -1,6 +1,6 @@
-import math
 from random import *
 from scipy.stats import expon, norm
+import pandas as pd
 
 
 
@@ -118,7 +118,7 @@ def limites(min, max, intervalo):
         elif i == (intervalo - 1):
             vector_li.append(nuevo_minimo)
             vector_ls.append(nuevo_maximo)
-    return vector_li, vector_ls
+    return vector_li, vector_ls, amplitud
 
 
 def frecuencia_obs(vector,vector_li, vector_ls, max):
@@ -163,5 +163,15 @@ def calcular_chi(funcion_chi_vector):
     for i in funcion_chi_vector:
         contador += i
     return round(contador, 4)
+
+def create_data_frame(matriz):
+    head = ["rnd_expo", "li", "ls", "fo", "fe", "((O-E)^2)/E"]
+    df = pd.DataFrame(
+        list(
+            zip(matriz[0], matriz[1], matriz[2], matriz[3], matriz[4], matriz[5])
+        ),
+        columns=head
+    )
+    return df
 
 

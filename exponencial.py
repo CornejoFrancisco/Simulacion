@@ -2,9 +2,11 @@ from soporte import*
 
 def exponencial_calculadora_land(vector, variable):
     vector_exponencial = []
+    print(vector)
     for i in vector:
-        rnd_expo = -(1/variable)*(math.log(1-i))
-        vector_exponencial.append(round(rnd_expo, 4))
+        if i < 1:
+            rnd_expo = -(1/variable)*(math.log(1-i))
+            vector_exponencial.append(round(rnd_expo, 4))
     return vector_exponencial
 
 
@@ -19,13 +21,13 @@ def exponencial_calculadora_expon(vector, variable):
 def exponencial_calculos(vector_exponencial, intervalo, lambd):
     maximo = round(max(vector_exponencial),4)
     minimo = round(min(vector_exponencial),4)
-    vector_li, vector_ls = limites(minimo, maximo, intervalo)
+    vector_li, vector_ls, amplitud = limites(minimo, maximo, intervalo)
     vector_fo_expo = frecuencia_obs(vector_exponencial, vector_li, vector_ls, maximo)
     vector_fe_expo = frecuencia_esp_expo(vector_li, vector_ls, lambd, len(vector_exponencial))
     funcion_chi_vector = funcion_chi(vector_fo_expo, vector_fe_expo)
     funcion_chi_valor = calcular_chi(funcion_chi_vector)
     matriz = [vector_exponencial, vector_li, vector_ls, vector_fo_expo, vector_fe_expo, funcion_chi_vector,
-              funcion_chi_valor, intervalo]
+              funcion_chi_valor, intervalo, minimo, maximo, amplitud]
     print(funcion_chi_valor)
     return matriz
 
