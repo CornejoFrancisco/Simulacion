@@ -1,12 +1,17 @@
-from soporte import*
+from soporte import *
+import math
 
 def exponencial_calculadora_land(vector, variable):
     vector_exponencial = []
     print(vector)
     for i in vector:
-        if i < 1:
-            rnd_expo = -(1/variable)*(math.log(1-i))
+        if i >= 1:
+            rnd_expo = -(1/variable)*(math.log(1-0.9999))
             vector_exponencial.append(round(rnd_expo, 4))
+        else:
+            rnd_expo = -(1 / variable) * (math.log(1 - i))
+            vector_exponencial.append(round(rnd_expo, 4))
+
     return vector_exponencial
 
 
