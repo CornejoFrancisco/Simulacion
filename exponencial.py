@@ -24,15 +24,24 @@ def exponencial_calculadora_expon(vector, variable):
 
 
 def exponencial_calculos(vector_exponencial, intervalo, lambd):
+    print("llega aca")
     maximo = round(max(vector_exponencial),4)
+    print("llega aca")
     minimo = round(min(vector_exponencial),4)
+    print("llega aca")
     vector_li, vector_ls, amplitud = limites(minimo, maximo, intervalo)
+    print("llega aca")
     vector_fo_expo = frecuencia_obs(vector_exponencial, vector_li, vector_ls, maximo)
+    print("llega aca")
     vector_fe_expo = frecuencia_esp_expo(vector_li, vector_ls, lambd, len(vector_exponencial))
+    print("llega aca")
     funcion_chi_vector = funcion_chi(vector_fo_expo, vector_fe_expo)
+    print("llega aca")
     funcion_chi_valor = calcular_chi(funcion_chi_vector)
+    print("llega aca")
     matriz = [vector_exponencial, vector_li, vector_ls, vector_fo_expo, vector_fe_expo, funcion_chi_vector,
               funcion_chi_valor, intervalo, minimo, maximo, amplitud]
+    print("llega aca")
     print(funcion_chi_valor)
     return matriz
 

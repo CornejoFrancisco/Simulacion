@@ -1,7 +1,7 @@
 from random import *
 from scipy.stats import expon, norm
 import pandas as pd
-
+import math
 
 
 def validad_positivo(mensaje):
@@ -143,6 +143,60 @@ def vector_uniforme(vector, a, b):
         rnd_uniforme = a + i * (b-a)
         vector_uniforme.append(round(rnd_uniforme, 4))
     return vector_uniforme
+
+def vector_exponencial(vector, variable_select, valor_variable):
+    vector_exponencial = []
+
+    if variable_select == 1:
+        for i in vector:
+            if i >= 1:
+                rnd_expo = -(1/valor_variable)*(math.log(1-0.9999))
+                vector_exponencial.append(round(rnd_expo, 4))
+            else:
+                rnd_expo = -(1 / valor_variable) * (math.log(1 - i))
+                vector_exponencial.append(round(rnd_expo, 4))
+    elif variable_select == 2:
+        for i in vector:
+            if i >= 1:
+                rnd_expo = -(valor_variable)*(math.log(1-0.9999))
+                vector_exponencial.append(round(rnd_expo, 4))
+            else:
+                rnd_expo = -(valor_variable) * (math.log(1 - i))
+                vector_exponencial.append(round(rnd_expo, 4))
+    print("termina vector exponencial")
+    return vector_exponencial
+
+def vector_normal(vector_nros_aleatorios_1, vector_nros_aleatorios_2, cantidad_nros_aleatorios, desviacion, media):
+    vector_normal = []
+    vueltas = cantidad_nros_aleatorios // 2
+    print(vueltas)
+    if cantidad_nros_aleatorios % 2 == 0:
+        for i in range(vueltas):
+            rnd1, rnd2 = random(), random()
+            n1 = (math.sqrt(-2 * math.log(rnd1)) *
+                  math.cos(2 * math.pi * rnd2)) * desviacion + media
+            n2 = (math.sqrt(-2 * math.log(rnd1)) *
+                  math.sin(2 * math.pi * rnd2)) * desviacion + media
+            vector_normal.append(round(n1, 4))
+            vector_normal.append(round(n2, 4))
+
+    elif cantidad_nros_aleatorios % 2 != 0:
+        for i in range(vueltas):
+            rnd1, rnd2 = random(), random()
+            n1 = (math.sqrt(-2 * math.log(rnd1)) *
+                  math.cos(2 * math.pi * rnd2)) * desviacion + media
+            n2 = (math.sqrt(-2 * math.log(rnd1)) *
+                  math.sin(2 * math.pi * rnd2)) * desviacion + media
+            vector_normal.append(round(n1, 4))
+            vector_normal.append(round(n2, 4))
+            if i == vueltas - 1:
+                n1 = (math.sqrt(-2 * math.log(rnd1)) *
+                      math.cos(2 * math.pi * rnd2)) * desviacion + media
+                vector_normal.append(round(n1, 4))
+    print("termina de cargar vector")
+    print(len(vector_normal))
+    return vector_normal
+
 
 
 def funcion_chi(frecuencia_observada, frecuencia_esperada):
