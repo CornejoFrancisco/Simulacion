@@ -1,4 +1,4 @@
-from soporte import *
+from scripts.soporte import *
 
 
 def prueba_chi_cuadrdado_uniforme(vector_nros_aleatorios_uniforme, cantidad_intervalos):
@@ -9,9 +9,20 @@ def prueba_chi_cuadrdado_uniforme(vector_nros_aleatorios_uniforme, cantidad_inte
     vector_fe = [(len(vector_nros_aleatorios_uniforme)/cantidad_intervalos) for _ in range(cantidad_intervalos)]
     vector_chi = funcion_chi(vector_fo, vector_fe)
     valor_chi = calcular_chi(vector_chi)
-    matriz = [vector_nros_aleatorios_uniforme, vector_li, vector_ls, vector_fo, vector_fe, vector_chi, valor_chi,
-              cantidad_intervalos, minimo, maximo, amplitud]
-    return matriz
+
+    data = {
+        "vector_li": vector_li,
+        "vector_ls": vector_ls,
+        "vector_fo": vector_fo,
+        "vector_fe": vector_fe,
+        "vector_chi": vector_chi,
+        "valor_chi": valor_chi,
+        "maximo": maximo,
+        "minimo": minimo,
+        "amplitud": amplitud
+    }
+
+    return data
 
 def prueba_chi_cuadrado_exponencal(vector_nros_aleatorios_expo, cantidad_intervalos, variable_select, valor_variable):
     minimo = min(vector_nros_aleatorios_expo)

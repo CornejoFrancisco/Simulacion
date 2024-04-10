@@ -1,4 +1,3 @@
-import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
@@ -15,5 +14,6 @@ def table(df):
         cells=dict(values=df.transpose().values.tolist())
     ))
     fig.show()
+
 
 
