@@ -106,7 +106,7 @@ def generador_vector_exponencial(variable_select, valor_variable, cantidad_nros)
     vector_exponencial = []
     if variable_select == 1:
         for i in range(cantidad_nros):
-            rnd = round(random(),4)
+            rnd = round(random(), 4)
             if rnd >= 1:
                 rnd_expo = -(1/valor_variable)*(math.log(1-0.9999))
                 vector_exponencial.append(round(rnd_expo, 4))
@@ -114,8 +114,8 @@ def generador_vector_exponencial(variable_select, valor_variable, cantidad_nros)
                 rnd_expo = -(1 / valor_variable) * (math.log(1 - rnd))
                 vector_exponencial.append(round(rnd_expo, 4))
     elif variable_select == 2:
-        rnd = random()
         for i in range(cantidad_nros):
+            rnd = round(random(), 4)
             if rnd >= 1:
                 rnd_expo = -valor_variable * (math.log(1 - 0.9999))
                 vector_exponencial.append(round(rnd_expo, 4))
@@ -166,11 +166,22 @@ def calcular_chi(funcion_chi_vector):
     return round(contador, 4)
 
 # OTROS
-def create_data_frame(matriz):
-    head = ["rnd_expo", "li", "ls", "fo", "fe", "((O-E)^2)/E"]
+def create_df_frecuencias(dict_data):
+    head = ["limite inferior", "limite superior", "frecuencia obsevada", "frecuencia esperada"]
     df = pd.DataFrame(
         list(
-            zip(matriz[0], matriz[1], matriz[2], matriz[3], matriz[4], matriz[5])
+            zip(dict_data["vector_li"], dict_data["vector_ls"], dict_data["vector_fo"],
+                dict_data["vector_fe"])
+        ),
+        columns=head
+    )
+    return df
+
+def create_df_serie_aleatoria(dict_data):
+    head = ["numeros random distribucion " + dict_data["tipo_distribucion"]]
+    df = pd.DataFrame(
+        list(
+            zip(dict_data["vector_serie_nros_aleatorios"])
         ),
         columns=head
     )

@@ -24,21 +24,34 @@ def prueba_chi_cuadrdado_uniforme(vector_nros_aleatorios_uniforme, cantidad_inte
 
     return data
 
+
 def prueba_chi_cuadrado_exponencal(vector_nros_aleatorios_expo, cantidad_intervalos, variable_select, valor_variable):
+
     minimo = min(vector_nros_aleatorios_expo)
     maximo = max(vector_nros_aleatorios_expo)
-    print("Encuentra minimo y maximo")
     vector_li, vector_ls, amplitud = limites(minimo, maximo, cantidad_intervalos)
     vector_fo = frecuencia_obs(vector_nros_aleatorios_expo, vector_li, vector_ls, maximo)
     lambd = valor_variable
     if variable_select == 2:
         lambd = 1/valor_variable
+    print(lambd)
     vector_fe = frecuencia_esp_expo(vector_li, vector_ls, lambd, len(vector_nros_aleatorios_expo))
     vector_chi = funcion_chi(vector_fo, vector_fe)
     valor_chi = calcular_chi(vector_chi)
-    matriz = [vector_nros_aleatorios_expo, vector_li, vector_ls, vector_fo, vector_fe, vector_chi, valor_chi,
-              cantidad_intervalos, minimo, maximo, amplitud]
-    return matriz
+    data = {
+        "vector_li": vector_li,
+        "vector_ls": vector_ls,
+        "vector_fo": vector_fo,
+        "vector_fe": vector_fe,
+        "vector_chi": vector_chi,
+        "valor_chi": valor_chi,
+        "maximo": maximo,
+        "minimo": minimo,
+        "amplitud": amplitud
+    }
+
+    return data
+
 
 def prueba_chi_cuadrado_normal(vector_nros_aleatorios_norm, cantidad_intervalos, media, desviacion):
     minimo = min(vector_nros_aleatorios_norm)
@@ -48,6 +61,15 @@ def prueba_chi_cuadrado_normal(vector_nros_aleatorios_norm, cantidad_intervalos,
     vector_fe = frecuencia_esp_norm(vector_li, vector_ls, media, desviacion, len(vector_nros_aleatorios_norm))
     vector_chi = funcion_chi(vector_fo, vector_fe)
     valor_chi = calcular_chi(vector_chi)
-    matriz = [vector_nros_aleatorios_norm, vector_li, vector_ls, vector_fo, vector_fe, vector_chi, valor_chi,
-              cantidad_intervalos, minimo, maximo, amplitud]
-    return matriz
+    data = {
+        "vector_li": vector_li,
+        "vector_ls": vector_ls,
+        "vector_fo": vector_fo,
+        "vector_fe": vector_fe,
+        "vector_chi": vector_chi,
+        "valor_chi": valor_chi,
+        "maximo": maximo,
+        "minimo": minimo,
+        "amplitud": amplitud
+    }
+    return data
