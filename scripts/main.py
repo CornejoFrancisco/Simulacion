@@ -49,6 +49,8 @@ def generar_distribucion_exponencial(params):
 
     df_frecuencias_expo = create_df_frecuencias(data)
     table_frecuencias(df_frecuencias_expo)
+    df_frec_acum = create_df_frec_acum(data)
+    tabla_fre_acum(df_frec_acum)
     grafico_histograma_frecuencias(vector_nros_aleatorios_expo, data["minimo"], data["maximo"],
                                    data["amplitud"], vector_li_ls)
 
@@ -65,12 +67,16 @@ def generar_distribucion_normal(params):
         "tipo_distribucion": "normal",
         "vector_serie_nros_aleatorios": vector_nros_aleatorios_normal
     }
-
-    df_df_serie_norm = create_df_serie_aleatoria(dict_df_serie_norm)
-    tabla_nros_aleatorios(df_df_serie_norm, "normal")
+    print("1")
+    df_serie_norm = create_df_serie_aleatoria(dict_df_serie_norm)
+    tabla_nros_aleatorios(df_serie_norm, "normal")
 
     df_frecuencias_norm = create_df_frecuencias(data)
     table_frecuencias(df_frecuencias_norm)
+
+    df_frec_acum = create_df_frec_acum(data)
+    tabla_fre_acum(df_frec_acum)
+
     grafico_histograma_frecuencias(vector_nros_aleatorios_normal, data["minimo"], data["maximo"],
                                    data["amplitud"], vector_li_ls)
 

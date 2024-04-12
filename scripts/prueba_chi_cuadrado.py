@@ -36,6 +36,7 @@ def prueba_chi_cuadrado_exponencal(vector_nros_aleatorios_expo, cantidad_interva
         lambd = 1/valor_variable
     print(lambd)
     vector_fe = frecuencia_esp_expo(vector_li, vector_ls, lambd, len(vector_nros_aleatorios_expo))
+    vector_new_fe, vector_new_fo = agrupamiento_fe(vector_fe, vector_fo)
     vector_chi = funcion_chi(vector_fo, vector_fe)
     valor_chi = calcular_chi(vector_chi)
     data = {
@@ -43,6 +44,8 @@ def prueba_chi_cuadrado_exponencal(vector_nros_aleatorios_expo, cantidad_interva
         "vector_ls": vector_ls,
         "vector_fo": vector_fo,
         "vector_fe": vector_fe,
+        "vector_fe_ag": vector_new_fe,
+        "vector_fo_ag": vector_new_fo,
         "vector_chi": vector_chi,
         "valor_chi": valor_chi,
         "maximo": maximo,
@@ -62,6 +65,7 @@ def prueba_chi_cuadrado_normal(vector_nros_aleatorios_norm, cantidad_intervalos)
     desviacion = calc_desviacion(vector_nros_aleatorios_norm, media)
 
     vector_fe = frecuencia_esp_norm(vector_li, vector_ls, media, desviacion, len(vector_nros_aleatorios_norm))
+    vector_new_fe, vector_new_fo = agrupamiento_fe(vector_fe, vector_fo)
     vector_chi = funcion_chi(vector_fo, vector_fe)
     valor_chi = calcular_chi(vector_chi)
     data = {
@@ -69,6 +73,8 @@ def prueba_chi_cuadrado_normal(vector_nros_aleatorios_norm, cantidad_intervalos)
         "vector_ls": vector_ls,
         "vector_fo": vector_fo,
         "vector_fe": vector_fe,
+        "vector_fe_ag": vector_new_fe,
+        "vector_fo_ag": vector_new_fo,
         "vector_chi": vector_chi,
         "valor_chi": valor_chi,
         "maximo": maximo,
