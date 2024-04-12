@@ -4,6 +4,18 @@ import pandas as pd
 import math
 
 
+def calc_media(vector):
+    return sum(vector)/len(vector)
+
+
+def calc_desviacion(vector, media):
+    suma_dif_cuadrados = 0
+    for x in vector:
+        suma_dif_cuadrados += pow((x - media), 2)
+    var_s = suma_dif_cuadrados/(len(vector) - 1)
+    return math.sqrt(var_s)
+
+
 def vector_cargado(cantidad):
     vector = []
     for i in range(cantidad):

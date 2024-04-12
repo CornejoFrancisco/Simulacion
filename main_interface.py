@@ -1,5 +1,5 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QDialog, QMainWindow
+from PyQt6.QtWidgets import QApplication, QDialog
 from interfaz.selector_parametros import *
 from scripts.main import *
 

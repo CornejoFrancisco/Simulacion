@@ -39,7 +39,7 @@ def generar_distribucion_exponencial(params):
                                           params["opcion_dist"], params["valor_op_dist"])
     vector_li_ls = data["vector_li"].copy()
     vector_li_ls.append(data["maximo"])
-
+    print(data["vector_fe"])
     dict_df_serie_expo = {
         "tipo_distribucion": "exponencial",
         "vector_serie_nros_aleatorios": vector_nros_aleatorios_expo
@@ -57,11 +57,10 @@ def generar_distribucion_normal(params):
     cantidad_nros = params["cantidad_nros"]
     vector_nros_aleatorios_normal = generar_vector_normal(cantidad_nros,
                                   params["desviacion"], params["media"])
-    data = prueba_chi_cuadrado_normal(vector_nros_aleatorios_normal, params["cantidad_intervalos"],
-                                      params["media"], params["desviacion"])
+    data = prueba_chi_cuadrado_normal(vector_nros_aleatorios_normal, params["cantidad_intervalos"])
     vector_li_ls = data["vector_li"].copy()
     vector_li_ls.append(data["maximo"])
-
+    print(data["vector_fe"])
     dict_df_serie_norm = {
         "tipo_distribucion": "normal",
         "vector_serie_nros_aleatorios": vector_nros_aleatorios_normal

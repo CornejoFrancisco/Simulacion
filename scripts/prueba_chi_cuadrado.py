@@ -53,11 +53,14 @@ def prueba_chi_cuadrado_exponencal(vector_nros_aleatorios_expo, cantidad_interva
     return data
 
 
-def prueba_chi_cuadrado_normal(vector_nros_aleatorios_norm, cantidad_intervalos, media, desviacion):
+def prueba_chi_cuadrado_normal(vector_nros_aleatorios_norm, cantidad_intervalos):
     minimo = min(vector_nros_aleatorios_norm)
     maximo = max(vector_nros_aleatorios_norm)
     vector_li, vector_ls, amplitud = limites(minimo, maximo, cantidad_intervalos)
     vector_fo = frecuencia_obs(vector_nros_aleatorios_norm, vector_li, vector_ls, maximo)
+    media = calc_media(vector_nros_aleatorios_norm)
+    desviacion = calc_desviacion(vector_nros_aleatorios_norm, media)
+
     vector_fe = frecuencia_esp_norm(vector_li, vector_ls, media, desviacion, len(vector_nros_aleatorios_norm))
     vector_chi = funcion_chi(vector_fo, vector_fe)
     valor_chi = calcular_chi(vector_chi)
