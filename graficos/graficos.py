@@ -15,6 +15,20 @@ def grafico_histograma_frecuencias(vector_fo, minimo, maximo, amplitud, vector_l
     fig.write_html('histograma.html', auto_open=True)
 
 
+def tabla(df, tipo_dist):
+    print(df)
+    data_values = df.transpose().values.tolist()
+    header = list(df.columns)
+
+    fig = go.Figure(data=go.Table(
+        header=dict(values=header),
+        cells=dict(values=data_values)
+    ))
+    fig.update_layout(title_text="Tabla de frecuencias y prueba ji cuadrado"
+                                 + tipo_dist, title_x=0.5)
+    fig.write_html('tabla ji_cuadrado.html', auto_open=True)
+
+
 def table_frecuencias(df, tipo_dist):
     intervalos = list(map(lambda x: x+1, list(df.index.values)))
     data_values = [intervalos] + df.transpose().values.tolist()

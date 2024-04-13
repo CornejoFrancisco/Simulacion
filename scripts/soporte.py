@@ -41,17 +41,18 @@ def varianza_datos(vector):
     return varianza
 
 
-
 # LIMITES
 def limites(min, max, intervalo):
     vector_li = []
     vector_ls = []
+    vector_nro_intervalo = []
     rango = round(max - min,4)
     amplitud = round(rango / intervalo, 4)
     nuevo_minimo = round(min, 4)
     nuevo_maximo = round(nuevo_minimo + amplitud, 4)
 
     for i in range(intervalo):
+        vector_nro_intervalo.append(i + 1)
         if i == 0:
             vector_li.append(nuevo_minimo)
             vector_ls.append(nuevo_maximo)
@@ -67,7 +68,7 @@ def limites(min, max, intervalo):
         elif i == (intervalo - 1):
             vector_li.append(nuevo_minimo)
             vector_ls.append(nuevo_maximo)
-    return vector_li, vector_ls, amplitud
+    return vector_li, vector_ls, amplitud, vector_nro_intervalo
 
 
 # FRECUENCIAS
@@ -87,58 +88,83 @@ def frecuencia_obs(vector,vector_li, vector_ls, max):
 
     return contador_apariciones
 
+def frecuencia_esp_unif(cantidad_nros, cantidad_intervalos):
+    fe = round(cantidad_nros / cantidad_intervalos, 4)
+    fe_menor_5 = False
+    if fe < 5:
+        fe_menor_5 = True
+    vector_fe = cantidad_intervalos * [fe]
+    return vector_fe, fe_menor_5
+
 def frecuencia_esp_expo(vector_li, vector_ls, lambd, n):
     vector_fe = []
+    fe_menor_5 = False
     for i in range(len(vector_li)):
         li = vector_li[i]
         ls = vector_ls[i]
-        fe = round((expon.cdf(ls, scale= 1/lambd ) - (expon.cdf(li, scale= 1/lambd) )) * n, 4)
+        fe = round((expon.cdf(ls, scale=1/lambd) - (expon.cdf(li, scale=1/lambd))) * n, 4)
         vector_fe.append(fe)
-    return vector_fe
+        if fe < 5:
+            fe_menor_5 = True
+    return vector_fe, fe_menor_5
+
 
 def frecuencia_esp_norm(vector_li, vector_ls, media, desviacion, n):
     vector_fe = []
+    fe_menor_5 = False
     for i in range(len(vector_li)):
         li = vector_li[i]
         ls = vector_ls[i]
         fe = round(((norm.cdf(ls, loc=media, scale=desviacion)) - (norm.cdf(li, loc=media, scale=desviacion))) * n, 4)
         vector_fe.append(fe)
-    return vector_fe
+        if fe < 5:
+            fe_menor_5 = True
+    return vector_fe, fe_menor_5
 
 
 def agrupamiento_fe(vec_f, vec_o):
     vec_agrupados = []
     vec_oac = []
+    vec_int_i = []
+    vec_int_s = []
+    vec_int_agrupados = []
     suma = 0
     acum = 0
-    for x in vec_f:
-        if x < 5:
-            suma += x
-            ind_x = vec_f.index(x)
-            acum += vec_o[ind_x]
+    primero = True
 
-            if suma >= 5:
-                vec_agrupados.append(round(suma, 4))
-                vec_oac.append(round(acum, 4))
-                suma = 0
-                acum = 0
-            if vec_f.index(x) == len(vec_f) - 1 and suma < 5:
-                vec_agrupados[-1] += round(suma, 4)
-                vec_oac[-1] += round(acum, 4)
-                suma = 0
-                acum = 0
+    for i in range(len(vec_f)):
+        x = vec_f[i]
+        suma += x
+        acum += vec_o[i]
+        if primero:
+            vec_int_i.append(i)
+            primero = False
 
-        else:
-            ind_x = vec_f.index(x)
-            if suma < 5:
-                vec_agrupados.append(round(x + suma, 4))
-                vec_oac.append(round(acum + vec_o[ind_x], 4))
-            else:
-                vec_agrupados.append(x)
-                vec_oac.append(vec_o[ind_x])
+        if suma >= 5:
+            vec_agrupados.append(round(suma, 4))
+            vec_oac.append(acum)
             suma = 0
             acum = 0
-    return vec_agrupados, vec_oac
+            vec_int_s.append(i)
+            primero = True
+        elif 0 < suma < 5 and i == len(vec_f) - 1:
+            vec_agrupados[-1] += round(suma, 4)
+            vec_oac[-1] += acum
+            del vec_int_i[-1]
+            vec_int_s[-1] = i
+
+    for i in range(len(vec_int_s)):
+        inicial = vec_int_i[i]
+        final = vec_int_s[i]
+        if inicial != final:
+            intervalo = f"{inicial + 1} - {final + 1}"
+            vec_int_agrupados.append(intervalo)
+        elif inicial == final:
+            intervalo = f"{inicial + 1}"
+            vec_int_agrupados.append(intervalo)
+
+    return vec_agrupados, vec_oac, vec_int_agrupados
+
 
 # GENERADORES
 def generar_vector_uniforme(a, b, cantidad_nros):
@@ -149,26 +175,19 @@ def generar_vector_uniforme(a, b, cantidad_nros):
         vector_uniforme.append(round(rnd_uniforme, 4))
     return vector_uniforme
 
+
 def generador_vector_exponencial(variable_select, valor_variable, cantidad_nros):
     vector_exponencial = []
     if variable_select == 1:
         for i in range(cantidad_nros):
-            rnd = round(random(), 4)
-            if rnd >= 1:
-                rnd_expo = -(1/valor_variable)*(math.log(1-0.9999))
-                vector_exponencial.append(round(rnd_expo, 4))
-            else:
-                rnd_expo = -(1 / valor_variable) * (math.log(1 - rnd))
-                vector_exponencial.append(round(rnd_expo, 4))
+            rnd = uniform(0, 1)
+            rnd_expo = -(1 / valor_variable) * (math.log(1 - rnd))
+            vector_exponencial.append(round(rnd_expo, 4))
     elif variable_select == 2:
         for i in range(cantidad_nros):
-            rnd = round(random(), 4)
-            if rnd >= 1:
-                rnd_expo = -valor_variable * (math.log(1 - 0.9999))
-                vector_exponencial.append(round(rnd_expo, 4))
-            else:
-                rnd_expo = -valor_variable * (math.log(1 - rnd))
-                vector_exponencial.append(round(rnd_expo, 4))
+            rnd = uniform(0, 1)
+            rnd_expo = -valor_variable * (math.log(1 - rnd))
+            vector_exponencial.append(round(rnd_expo, 4))
     return vector_exponencial
 
 
@@ -212,6 +231,56 @@ def calcular_chi(funcion_chi_vector):
 # OTROS
 
 
+def create_df_final(dict_data):
+    print("llega aca")
+    vector_li = dict_data["vector_li"]
+    vector_ls = dict_data["vector_ls"]
+    vector_nro_intervalo = dict_data["vector_nro_intervalo"]
+    vector_fo = dict_data["vector_fo"]
+    vector_fe = dict_data["vector_fe"]
+    vector_int_ag = dict_data["vector_int_ag"]
+    vector_fo_ag = dict_data["vector_fo_ag"]
+    vector_fe_ag = dict_data["vector_fe_ag"]
+    vector_chi = dict_data["vector_chi"]
+    fe_menor_5 = dict_data["fe_menor_5"]
+
+    vector_relleno_frecuencias = ["" for i in range(len(vector_li) - len(vector_li))]
+
+    vector_li += vector_relleno_frecuencias
+    vector_ls += vector_relleno_frecuencias
+    vector_nro_intervalo += vector_relleno_frecuencias
+    vector_fo += vector_relleno_frecuencias
+    vector_fe += vector_relleno_frecuencias
+
+    if fe_menor_5:
+        vector_relleno_frecuencias_agrupadas = ["" for i in range(len(vector_li) - len(vector_int_ag))]
+        vector_int_ag += vector_relleno_frecuencias_agrupadas
+        vector_fo_ag += vector_relleno_frecuencias_agrupadas
+        vector_fe_ag += vector_relleno_frecuencias_agrupadas
+        vector_chi += vector_relleno_frecuencias_agrupadas
+
+        head = ["vector_nro_intervalo", "limite inferior", "limite superior", "frecuencia obsevada",
+                "frecuencia esperada", "intervalos agrupados", "frecuenia observada ag",
+                "frecuencia esperada ag", "Vector CHI"]
+        df = pd.DataFrame(
+            list(
+                zip(vector_nro_intervalo, vector_li, vector_ls, vector_fo, vector_fe, vector_int_ag,
+                    vector_fo_ag, vector_fe_ag, vector_chi)
+            ),
+            columns=head)
+        return df
+    else:
+        vector_chi += vector_relleno_frecuencias
+
+        head = ["vector_nro_intervalo", "limite inferior", "limite superior", "frecuencia obsevada",
+                "frecuencia esperada", "Vector CHI"]
+        df = pd.DataFrame(
+            list(
+                zip(vector_nro_intervalo, vector_li, vector_ls, vector_fo, vector_fe, vector_chi)
+            ),
+            columns=head)
+        return df
+
 def create_df_frecuencias(dict_data, tipo_dist):
     if tipo_dist == "Uniforme":
         head = ["limite inferior", "limite superior", "frecuencia obsevada", "frecuencia esperada", "Vector CHI"]
@@ -236,10 +305,10 @@ def create_df_frecuencias(dict_data, tipo_dist):
 
 
 def create_df_chi(dict_data):
-    head = ["vector_fo_agrupado", "vector_fe_agrupado", "vector_chi"]
+    head = ["vector_int_ag", "vector_fo_agrupado", "vector_fe_agrupado", "vector_chi"]
     df = pd.DataFrame(
         list(
-            zip(dict_data["vector_fo_ag"], dict_data["vector_fe_ag"], dict_data["vector_chi"])
+            zip(dict_data["vector_int_ag"], dict_data["vector_fo_ag"], dict_data["vector_fe_ag"], dict_data["vector_chi"])
         ),
         columns=head
     )

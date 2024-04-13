@@ -1,3 +1,5 @@
+import random
+
 import pandas as pd
 
 vec_fe = [49.1918, 24.8965, 12.6004, 6.3772, 3.2276, 2.4852, 3.5485, 2.3361, 1.6335, 0.8267, 0.4184, 0.2118, 0.1072]
@@ -124,5 +126,6 @@ def frec_esp(vec_f, vec_o):
                        "vector_fo_ag": vec_oac, "vector_fe_ag": vec_agrupados})
     print(df)
 
-frec_esp(vec_fe_3, vec_fo_3)
+#frec_esp(vec_fe_3, vec_fo_3)
 #frec_esp2(vec_fe_2, vec_fo_2)
+print(round(random.uniform(0,1),4))
