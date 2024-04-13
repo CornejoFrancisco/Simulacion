@@ -1,32 +1,59 @@
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 
-def grafico_histograma_frecuencias(vector_fo, minimo, maximo, amplitud, vector_li_ls):
-    histograma = go.Histogram(x=vector_fo, xbins=dict(start=minimo, end=maximo, size=amplitud))
+def grafico_histograma_frecuencias(vector_fo, minimo, maximo, amplitud, vector_li_ls, tipo_dist):
+
     marcadores_x = dict(tickvals=vector_li_ls)
-    fig = go.Figure(histograma)
+    fig = go.Figure(data=go.Histogram(x=vector_fo,
+                              xbins=dict(start=minimo, end=maximo, size=amplitud)
+                              ))
+    fig.update_layout(title_text="Histograma de frecuencias de la variable aleatoria con distribucion "
+                                 + tipo_dist, title_x=0.5)
     fig.update_xaxes(marcadores_x)
+
     fig.write_html('histograma.html', auto_open=True)
 
 
-def table_frecuencias(df):
+def table_frecuencias(df, tipo_dist):
+    intervalos = list(map(lambda x: x+1, list(df.index.values)))
+    data_values = [intervalos] + df.transpose().values.tolist()
+    header = ["Intervalo"] + list(df.columns)
+
     fig = go.Figure(data=go.Table(
-        header=dict(values=list(df.columns)),
-        cells=dict(values=df.transpose().values.tolist())
+        header=dict(values=header),
+        cells=dict(values=data_values,)
     ))
+    fig.update_layout(title_text="Tabla de frecuencias de la variable aleatoria con distribucion "
+                                 + tipo_dist, title_x=0.5)
     fig.write_html('tabla_frecuencias.html', auto_open=True)
-    return fig
-def tabla_fre_acum(df):
+
+
+def tabla_fre_acum(df, tipo_dist):
+    intervalos = list(map(lambda x: x+1, list(df.index.values)))
+    data_values = [intervalos] + df.transpose().values.tolist()
+    header = ["Nro Intervalo"] + list(df.columns)
+
     fig = go.Figure(data=go.Table(
-        header=dict(values=list(df.columns)),
-        cells=dict(values=df.transpose().values.tolist())
+        header=dict(values=header),
+        cells=dict(values=data_values)
     ))
+    fig.update_layout(title_text="Tabla de frecuencias agrupadas de la variable aleatoria con distribucion "
+                                 + tipo_dist, title_x=0.5)
     fig.write_html('tabla_frecuencias_acum.html', auto_open=True)
-def tabla_nros_aleatorios(df, distr):
+
+
+def tabla_nros_aleatorios(df, tipo_dist):
+    intervalos = list(map(lambda x: x + 1, df.index.values.tolist()))
+    data_values = [intervalos] + list(df.transpose().values.tolist())
+    header = ["indice nro aleatorio"] + list(df.columns)
+
     fig = go.Figure(data=go.Table(
-        header=dict(values=list(df.columns)),
-        cells=dict(values=df.transpose().values.tolist())
+        header=dict(values=header),
+        cells=dict(values=data_values)
     ))
+    fig.update_layout(title_text="Tabla de valores de la variable aleatoria con distribucion "
+                                 + tipo_dist, title_x=0.5)
     fig.write_html('tabla_aleatorios.html', auto_open=True)
 
 

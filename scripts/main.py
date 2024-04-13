@@ -23,14 +23,13 @@ def generar_distribucion_uniforme(params):
     }
 
     df_serie_unif = create_df_serie_aleatoria(dict_df_serie_unif)
-    tabla_nros_aleatorios(df_serie_unif, "uniforme")
+    tabla_nros_aleatorios(df_serie_unif, "Uniforme")
 
-    df_frecuencias = create_df_frecuencias(data)
+    df_frecuencias = create_df_frecuencias(data, "Uniforme")
 
-    table_frecuencias(df_frecuencias)
+    table_frecuencias(df_frecuencias, "Uniforme")
     grafico_histograma_frecuencias(vector_nros_aleatorios_uniforme, data["minimo"], data["maximo"],
-                                   data["amplitud"], vector_li_ls)
-
+                                   data["amplitud"], vector_li_ls, "Uniforme")
 
 def generar_distribucion_exponencial(params):
     vector_nros_aleatorios_expo = generador_vector_exponencial(params["opcion_dist"],
@@ -45,14 +44,14 @@ def generar_distribucion_exponencial(params):
         "vector_serie_nros_aleatorios": vector_nros_aleatorios_expo
     }
     df_serie_expo = create_df_serie_aleatoria(dict_df_serie_expo)
-    tabla_nros_aleatorios(df_serie_expo, "exponencial")
+    tabla_nros_aleatorios(df_serie_expo,"Uniforme")
 
-    df_frecuencias_expo = create_df_frecuencias(data)
-    table_frecuencias(df_frecuencias_expo)
-    df_frec_acum = create_df_frec_acum(data)
-    tabla_fre_acum(df_frec_acum)
+    df_frecuencias_expo = create_df_frecuencias(data, "Exponencial")
+    table_frecuencias(df_frecuencias_expo, "Exponencial")
+    df_frec_acum = create_df_chi(data)
+    tabla_fre_acum(df_frec_acum, "Exponencial")
     grafico_histograma_frecuencias(vector_nros_aleatorios_expo, data["minimo"], data["maximo"],
-                                   data["amplitud"], vector_li_ls)
+                                   data["amplitud"], vector_li_ls, "Exponencial")
 
 
 def generar_distribucion_normal(params):
@@ -60,24 +59,25 @@ def generar_distribucion_normal(params):
     vector_nros_aleatorios_normal = generar_vector_normal(cantidad_nros,
                                   params["desviacion"], params["media"])
     data = prueba_chi_cuadrado_normal(vector_nros_aleatorios_normal, params["cantidad_intervalos"])
+
     vector_li_ls = data["vector_li"].copy()
     vector_li_ls.append(data["maximo"])
-    print(data["vector_fe"])
+
     dict_df_serie_norm = {
         "tipo_distribucion": "normal",
         "vector_serie_nros_aleatorios": vector_nros_aleatorios_normal
     }
-    print("1")
     df_serie_norm = create_df_serie_aleatoria(dict_df_serie_norm)
-    tabla_nros_aleatorios(df_serie_norm, "normal")
+    tabla_nros_aleatorios(df_serie_norm, "Uniforme")
 
-    df_frecuencias_norm = create_df_frecuencias(data)
-    table_frecuencias(df_frecuencias_norm)
+    df_frecuencias_norm = create_df_frecuencias(data, "Normal")
+    print(df_frecuencias_norm)
+    table_frecuencias(df_frecuencias_norm, "Normal")
 
-    df_frec_acum = create_df_frec_acum(data)
-    tabla_fre_acum(df_frec_acum)
+    df_frec_acum = create_df_chi(data)
+    tabla_fre_acum(df_frec_acum, "Normal")
 
     grafico_histograma_frecuencias(vector_nros_aleatorios_normal, data["minimo"], data["maximo"],
-                                   data["amplitud"], vector_li_ls)
+                                   data["amplitud"], vector_li_ls, "Normal")
 
 

@@ -210,23 +210,36 @@ def calcular_chi(funcion_chi_vector):
     return round(contador, 4)
 
 # OTROS
-def create_df_frecuencias(dict_data):
-    head = ["limite inferior", "limite superior", "frecuencia obsevada", "frecuencia esperada"]
-    df = pd.DataFrame(
-        list(
-            zip(dict_data["vector_li"], dict_data["vector_ls"], dict_data["vector_fo"],
-                dict_data["vector_fe"])
-        ),
-        columns=head
-    )
-    return df
 
 
-def create_df_frec_acum(dict_data):
-    head = ["frecuencia observada acumulada", "frecuencia_esperada_acumulada"]
+def create_df_frecuencias(dict_data, tipo_dist):
+    if tipo_dist == "Uniforme":
+        head = ["limite inferior", "limite superior", "frecuencia obsevada", "frecuencia esperada", "Vector CHI"]
+        df = pd.DataFrame(
+            list(
+                zip(dict_data["vector_li"], dict_data["vector_ls"], dict_data["vector_fo"],
+                    dict_data["vector_fe"], dict_data["vector_chi"])
+            ),
+            columns=head
+        )
+        return df
+    else:
+        head = ["limite inferior", "limite superior", "frecuencia obsevada", "frecuencia esperada"]
+        df = pd.DataFrame(
+            list(
+                zip(dict_data["vector_li"], dict_data["vector_ls"], dict_data["vector_fo"],
+                    dict_data["vector_fe"])
+            ),
+            columns=head
+        )
+        return df
+
+
+def create_df_chi(dict_data):
+    head = ["vector_fo_agrupado", "vector_fe_agrupado", "vector_chi"]
     df = pd.DataFrame(
         list(
-            zip(dict_data["vector_fo_ag"], dict_data["vector_fe_ag"])
+            zip(dict_data["vector_fo_ag"], dict_data["vector_fe_ag"], dict_data["vector_chi"])
         ),
         columns=head
     )

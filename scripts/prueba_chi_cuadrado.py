@@ -37,7 +37,8 @@ def prueba_chi_cuadrado_exponencal(vector_nros_aleatorios_expo, cantidad_interva
     print(lambd)
     vector_fe = frecuencia_esp_expo(vector_li, vector_ls, lambd, len(vector_nros_aleatorios_expo))
     vector_new_fe, vector_new_fo = agrupamiento_fe(vector_fe, vector_fo)
-    vector_chi = funcion_chi(vector_fo, vector_fe)
+
+    vector_chi = funcion_chi(vector_new_fo, vector_new_fe)
     valor_chi = calcular_chi(vector_chi)
     data = {
         "vector_li": vector_li,
@@ -66,7 +67,8 @@ def prueba_chi_cuadrado_normal(vector_nros_aleatorios_norm, cantidad_intervalos)
 
     vector_fe = frecuencia_esp_norm(vector_li, vector_ls, media, desviacion, len(vector_nros_aleatorios_norm))
     vector_new_fe, vector_new_fo = agrupamiento_fe(vector_fe, vector_fo)
-    vector_chi = funcion_chi(vector_fo, vector_fe)
+
+    vector_chi = funcion_chi(vector_new_fo, vector_new_fe)
     valor_chi = calcular_chi(vector_chi)
     data = {
         "vector_li": vector_li,
