@@ -129,18 +129,19 @@ from scripts.soporte import *
 
 def prueba_ji_cuadrado(vector_nros_aleatorios, cantidad_intervalos,
                        tipo_dist, variable_expo=None, valor_variable_expo=None):
-    maximo = round(max(vector_nros_aleatorios), 4)
+    maximo = (Decimal(max(vector_nros_aleatorios))).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP)
     print("maximo: ", maximo)
-    minimo = round(min(vector_nros_aleatorios), 4)
+    minimo = (Decimal(min(vector_nros_aleatorios))).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP)
     print("minimo: ", minimo)
     vector_li, vector_ls, amplitud, vector_nro_intervalo = limites(minimo, maximo, cantidad_intervalos)
     print("amplitud ", amplitud)
     vector_fo = frecuencia_obs(vector_nros_aleatorios, vector_li, vector_ls, maximo)
     vector_fe = []
-    fe_menor_5 = False
 
+    fe_menor_5 = False
     if tipo_dist == 'uniforme':
         vector_fe, fe_menor_5 = frecuencia_esp_unif(len(vector_nros_aleatorios), cantidad_intervalos)
+
     elif tipo_dist == 'normal':
         media = calc_media(vector_nros_aleatorios)
         desviacion = calc_desviacion(vector_nros_aleatorios, media)
@@ -149,7 +150,7 @@ def prueba_ji_cuadrado(vector_nros_aleatorios, cantidad_intervalos,
     elif tipo_dist == 'exponencial':
         lambd = valor_variable_expo
         if variable_expo == 2:
-            lambd = 1 / valor_variable_expo
+            lambd = (Decimal(1 / valor_variable_expo)).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP)
         vector_fe, fe_menor_5 = frecuencia_esp_expo(vector_li, vector_ls, lambd, len(vector_nros_aleatorios))
 
     vector_fo_ag = None

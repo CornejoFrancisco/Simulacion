@@ -1,4 +1,4 @@
-import random
+from random import *
 from decimal import Decimal, ROUND_HALF_UP
 import pandas as pd
 
@@ -130,5 +130,35 @@ def frec_esp(vec_f, vec_o):
 #frec_esp2(vec_fe_2, vec_fo_2)
 #print(round(random.uniform(0,1),4))
 
-numero = Decimal(3.15254)
-print(numero.quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP))
+numero = (Decimal(3.15255)).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP)
+#print(numero)
+
+def intervalos():
+    min = (Decimal(str(1.2252))).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP)
+    max = (Decimal(str(9.9514))).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP)
+    nro_i = 10
+    rango = (Decimal(str(max - min))).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP)
+    amplotud = (Decimal(str(rango / nro_i))).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP)
+    vec_li = []
+    vec_ls = []
+    for i in range(nro_i):
+        if i == 0:
+            vec_li.append(min)
+        else:
+            li = vec_ls[i - 1]  # Usar el límite superior del intervalo anterior
+            vec_li.append(li)
+
+        ls = min + amplotud * (i + 1) # Calcular ls directamente
+        #ls = ls.quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP)
+        vec_ls.append(ls)
+
+    print(vec_li)
+    print(vec_ls)
+
+intervalos()
+
+x = 12.12355
+a = 2.9704
+b = 0.8726
+print(random())
+print((Decimal(str(a + b))).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP))

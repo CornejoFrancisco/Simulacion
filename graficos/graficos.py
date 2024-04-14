@@ -4,8 +4,9 @@ from plotly.subplots import make_subplots
 
 def grafico_histograma_frecuencias(vector_fo, minimo, maximo, amplitud, vector_li_ls, tipo_dist):
     marcadores_x = dict(tickvals=vector_li_ls)
+    ls = max(maximo, max(vector_li_ls))
     fig = go.Figure(data=go.Histogram(x=vector_fo,
-                                      xbins=dict(start=min(vector_li_ls), end=max(vector_li_ls), size=amplitud),
+                                      xbins=dict(start=min(vector_li_ls), end=maximo, size=amplitud),
                                       marker=dict(color="lightcoral",
                                                   line=dict(color='black', width=1))
                                       ))

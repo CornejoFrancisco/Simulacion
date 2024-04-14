@@ -37,10 +37,11 @@ def generar_distribucion_uniforme(params):
 def generar_distribucion_exponencial(params):
     vector_nros_aleatorios_expo = generador_vector_exponencial(params["opcion_dist"],
                                                                params["valor_op_dist"], params["cantidad_nros"])
+    print("hace vector al")
     data = prueba_ji_cuadrado(vector_nros_aleatorios_expo, params["cantidad_intervalos"],"exponencial",
                                           params["opcion_dist"], params["valor_op_dist"])
     vector_li_ls = data["vector_li"].copy()
-    vector_li_ls.append(data["maximo"])
+    vector_li_ls.append(data["vector_ls"][-1])
 
     dict_df_serie_expo = {
         "tipo_distribucion": "Exponencial",
@@ -69,7 +70,7 @@ def generar_distribucion_normal(params):
     data = prueba_ji_cuadrado(vector_nros_aleatorios_normal, params["cantidad_intervalos"], "normal")
 
     vector_li_ls = data["vector_li"].copy()
-    vector_li_ls.append(data["maximo"])
+    vector_li_ls.append(data["vector_ls"][-1])
 
     dict_df_serie_norm = {
         "tipo_distribucion": "Normal",
