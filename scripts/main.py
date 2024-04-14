@@ -12,10 +12,10 @@ def generar_distribucion_uniforme(params):
     vector_nros_aleatorios_uniforme = generar_vector_uniforme(valor_a, valor_b, cantidad_nros)
     data = prueba_ji_cuadrado(vector_nros_aleatorios_uniforme, cantidad_intervalos, "uniforme")
     vector_li_ls = data["vector_li"].copy()
-    vector_li_ls.append(data["maximo"])
+    vector_li_ls.append(data["vector_ls"][-1])
 
     dict_df_serie_unif = {
-        "tipo_distribucion": "uniforme",
+        "tipo_distribucion": "Uniforme",
         "vector_serie_nros_aleatorios": vector_nros_aleatorios_uniforme
     }
 
@@ -28,6 +28,7 @@ def generar_distribucion_uniforme(params):
 
     df_final = create_df_final(data)
     tabla(df_final, "Uniforme")
+    print(vector_li_ls)
 
     grafico_histograma_frecuencias(vector_nros_aleatorios_uniforme, data["minimo"], data["maximo"],
                                    data["amplitud"], vector_li_ls, "Uniforme")
@@ -42,11 +43,11 @@ def generar_distribucion_exponencial(params):
     vector_li_ls.append(data["maximo"])
 
     dict_df_serie_expo = {
-        "tipo_distribucion": "exponencial",
+        "tipo_distribucion": "Exponencial",
         "vector_serie_nros_aleatorios": vector_nros_aleatorios_expo
     }
     df_serie_expo = create_df_serie_aleatoria(dict_df_serie_expo)
-    tabla_nros_aleatorios(df_serie_expo, "Uniforme")
+    tabla_nros_aleatorios(df_serie_expo, "Exponencial")
 
     """df_frecuencias_expo = create_df_frecuencias(data, "Exponencial")
     table_frecuencias(df_frecuencias_expo, "Exponencial")
@@ -54,7 +55,8 @@ def generar_distribucion_exponencial(params):
     tabla_fre_acum(df_frec_acum, "Exponencial")"""
 
     df_final = create_df_final(data)
-    tabla(df_final, "Normal")
+    tabla(df_final, "Exponencial")
+    print(vector_li_ls)
 
     grafico_histograma_frecuencias(vector_nros_aleatorios_expo, data["minimo"], data["maximo"],
                                    data["amplitud"], vector_li_ls, "Exponencial")
@@ -70,7 +72,7 @@ def generar_distribucion_normal(params):
     vector_li_ls.append(data["maximo"])
 
     dict_df_serie_norm = {
-        "tipo_distribucion": "normal",
+        "tipo_distribucion": "Normal",
         "vector_serie_nros_aleatorios": vector_nros_aleatorios_normal
     }
     df_serie_norm = create_df_serie_aleatoria(dict_df_serie_norm)
@@ -84,6 +86,6 @@ def generar_distribucion_normal(params):
     tabla_fre_acum(df_frec_acum, "Normal")"""
     df_final = create_df_final(data)
     tabla(df_final, "Normal")
-
+    print(vector_li_ls)
     grafico_histograma_frecuencias(vector_nros_aleatorios_normal, data["minimo"], data["maximo"],
                                    data["amplitud"], vector_li_ls, "Normal")

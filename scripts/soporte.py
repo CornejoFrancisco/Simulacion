@@ -2,6 +2,7 @@ from random import *
 from scipy.stats import expon, norm
 import pandas as pd
 import math
+from decimal import ROUND_HALF_UP, Decimal
 
 
 def calc_media(vector):
@@ -46,8 +47,8 @@ def limites(min, max, intervalo):
     vector_li = []
     vector_ls = []
     vector_nro_intervalo = []
-    rango = round(max - min,4)
-    amplitud = round(rango / intervalo, 4)
+    rango = max - min
+    amplitud = rango.quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP)
     nuevo_minimo = round(min, 4)
     nuevo_maximo = round(nuevo_minimo + amplitud, 4)
 
@@ -233,6 +234,9 @@ def calcular_chi(funcion_chi_vector):
 
 def create_df_final(dict_data):
     print("llega aca")
+    minimo = dict_data["minimo"]
+    maximo = dict_data["maximo"]
+    amplitud = dict_data["amplitud"]
     vector_li = dict_data["vector_li"]
     vector_ls = dict_data["vector_ls"]
     vector_nro_intervalo = dict_data["vector_nro_intervalo"]
@@ -242,46 +246,43 @@ def create_df_final(dict_data):
     vector_fo_ag = dict_data["vector_fo_ag"]
     vector_fe_ag = dict_data["vector_fe_ag"]
     vector_chi = dict_data["vector_chi"]
+    valor_chi = dict_data["valor_chi"]
     fe_menor_5 = dict_data["fe_menor_5"]
 
-    vector_relleno_frecuencias = ["" for i in range(len(vector_li) - len(vector_li))]
-
-    vector_li += vector_relleno_frecuencias
-    vector_ls += vector_relleno_frecuencias
-    vector_nro_intervalo += vector_relleno_frecuencias
-    vector_fo += vector_relleno_frecuencias
-    vector_fe += vector_relleno_frecuencias
+    vector_relleno_frecuencias = ["" for i in range(len(vector_li) - 1)]
 
     if fe_menor_5:
         vector_relleno_frecuencias_agrupadas = ["" for i in range(len(vector_li) - len(vector_int_ag))]
+        vector_relleno_valor_una_fila = ["" for i in range(len(vector_li) - 1)]
         vector_int_ag += vector_relleno_frecuencias_agrupadas
         vector_fo_ag += vector_relleno_frecuencias_agrupadas
         vector_fe_ag += vector_relleno_frecuencias_agrupadas
         vector_chi += vector_relleno_frecuencias_agrupadas
+        valor_chi = [valor_chi] + vector_relleno_valor_una_fila
 
-        head = ["vector_nro_intervalo", "limite inferior", "limite superior", "frecuencia obsevada",
-                "frecuencia esperada", "intervalos agrupados", "frecuenia observada ag",
-                "frecuencia esperada ag", "Vector CHI"]
+        head = ["Numero intervalo", "limite inferior", "limite superior", "frecuencia obsevada",
+                "frecuencia esperada", "intervalos agrupados", "frecuenia observada agrupada",
+                "frecuencia esperada ag", "((O-E)^2)/ E", "valor chi"]
         df = pd.DataFrame(
             list(
                 zip(vector_nro_intervalo, vector_li, vector_ls, vector_fo, vector_fe, vector_int_ag,
-                    vector_fo_ag, vector_fe_ag, vector_chi)
+                    vector_fo_ag, vector_fe_ag, vector_chi, valor_chi)
             ),
             columns=head)
         return df
     else:
-        vector_chi += vector_relleno_frecuencias
+        valor_chi = [valor_chi] + vector_relleno_frecuencias
 
         head = ["vector_nro_intervalo", "limite inferior", "limite superior", "frecuencia obsevada",
-                "frecuencia esperada", "Vector CHI"]
+                "frecuencia esperada", "((O-E)^2)/ E", "valor chi"]
         df = pd.DataFrame(
             list(
-                zip(vector_nro_intervalo, vector_li, vector_ls, vector_fo, vector_fe, vector_chi)
+                zip(vector_nro_intervalo, vector_li, vector_ls, vector_fo, vector_fe, vector_chi, valor_chi)
             ),
             columns=head)
         return df
 
-def create_df_frecuencias(dict_data, tipo_dist):
+"""def create_df_frecuencias(dict_data, tipo_dist):
     if tipo_dist == "Uniforme":
         head = ["limite inferior", "limite superior", "frecuencia obsevada", "frecuencia esperada", "Vector CHI"]
         df = pd.DataFrame(
@@ -301,18 +302,18 @@ def create_df_frecuencias(dict_data, tipo_dist):
             ),
             columns=head
         )
-        return df
+        return df"""
 
 
-def create_df_chi(dict_data):
-    head = ["vector_int_ag", "vector_fo_agrupado", "vector_fe_agrupado", "vector_chi"]
+"""def create_df_chi(dict_data):
+    head = ["Intervalos agrupados", "frecuencia observada agrupada", "frecuencia esperada agrupada", "(O - E)^2/2)"]
     df = pd.DataFrame(
         list(
             zip(dict_data["vector_int_ag"], dict_data["vector_fo_ag"], dict_data["vector_fe_ag"], dict_data["vector_chi"])
         ),
         columns=head
     )
-    return df
+    return df"""
 
 
 def create_df_serie_aleatoria(dict_data):
