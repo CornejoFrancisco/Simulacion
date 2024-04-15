@@ -107,7 +107,7 @@ def agrupamiento_fe(vec_f, vec_o):
     for i in range(len(vec_f)):
         x = vec_f[i]
         suma += x
-        acum = vec_o[i]
+        acum += vec_o[i]
 
         if primero:
             vec_int_i.append(i)
