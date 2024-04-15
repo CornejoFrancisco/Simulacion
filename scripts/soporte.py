@@ -5,6 +5,7 @@ import pandas as pd
 import math
 
 
+
 def calc_media(vector):
     return sum(vector) / len(vector)
 
@@ -209,24 +210,28 @@ def calcular_chi(funcion_chi_vector):
 
 
 def create_df_final(dict_data):
+    print("Entra aca por lo menos")
     minimo = redondeo(dict_data["minimo"])
     maximo = redondeo(dict_data["maximo"])
     amplitud = redondeo(dict_data["amplitud"])
     vector_li = redondeo_vector(dict_data["vector_li"])
     vector_ls = redondeo_vector(dict_data["vector_ls"])
+    print("vectores_l")
     vector_nro_intervalo = dict_data["vector_nro_intervalo"]
     vector_fo = redondeo_vector(dict_data["vector_fo"])
     vector_fe = redondeo_vector(dict_data["vector_fe"])
-    vector_int_ag = dict_data["vector_int_ag"]
-    vector_fo_ag = redondeo_vector(dict_data["vector_fo_ag"])
-    vector_fe_ag = redondeo_vector(dict_data["vector_fe_ag"])
+    print("vector_frec")
     vector_chi = redondeo_vector(dict_data["vector_chi"])
+    print("vectores_f_ag")
     valor_chi = redondeo(dict_data["valor_chi"])
     fe_menor_5 = dict_data["fe_menor_5"]
-
+    print("Enrta a generar la tabla")
     vector_relleno_frecuencias = ["" for i in range(len(vector_li) - 1)]
 
     if fe_menor_5:
+        vector_int_ag = dict_data["vector_int_ag"]
+        vector_fo_ag = redondeo_vector(dict_data["vector_fo_ag"])
+        vector_fe_ag = redondeo_vector(dict_data["vector_fe_ag"])
         vector_relleno_frecuencias_agrupadas = ["" for i in range(len(vector_li) - len(vector_int_ag))]
         vector_relleno_valor_una_fila = ["" for i in range(len(vector_li) - 1)]
         vector_int_ag += vector_relleno_frecuencias_agrupadas
@@ -244,7 +249,9 @@ def create_df_final(dict_data):
                     vector_fo_ag, vector_fe_ag, vector_chi, valor_chi)
             ),
             columns=head)
+        print("generar la tabla")
         return df
+
     else:
         valor_chi = [valor_chi] + vector_relleno_frecuencias
 
@@ -255,6 +262,7 @@ def create_df_final(dict_data):
                 zip(vector_nro_intervalo, vector_li, vector_ls, vector_fo, vector_fe, vector_chi, valor_chi)
             ),
             columns=head)
+        print("generar la tabla")
         return df
 
 
@@ -293,9 +301,10 @@ def create_df_final(dict_data):
 
 def create_df_serie_aleatoria(dict_data):
     head = ["numeros random distribucion " + dict_data["tipo_distribucion"]]
+    datos = redondeo_vector(dict_data["vector_serie_nros_aleatorios"])
     df = pd.DataFrame(
         list(
-            zip(dict_data["vector_serie_nros_aleatorios"])
+            zip(datos)
         ),
         columns=head
     )
@@ -307,7 +316,10 @@ def gen_vector_li_ls(vector_li, vector_ls):
     vector_ls_r = redondeo_vector(vector_ls)
     vector_li_ls = []
     for i in range(len(vector_li)):
-        li_ls = f"{vector_li_r[i]}\n-{vector_ls_r[i]}"
+        if i == 0:
+            li_ls = f"[{vector_li_r[i]}-{vector_ls_r[i]}]"
+        else:
+            li_ls = f"({vector_li_r[i]}\n-{vector_ls_r[i]}]"
         vector_li_ls.append(li_ls)
     return vector_li_ls
 

@@ -130,11 +130,8 @@ from scripts.soporte import *
 def prueba_ji_cuadrado(vector_nros_aleatorios, cantidad_intervalos,
                        tipo_dist, variable_expo=None, valor_variable_expo=None):
     maximo = max(vector_nros_aleatorios)
-    print("maximo: ", maximo)
     minimo = min(vector_nros_aleatorios)
-    print("minimo: ", minimo)
     vector_li, vector_ls, amplitud, vector_nro_intervalo = limites(minimo, maximo, cantidad_intervalos)
-    print("amplitud: ", amplitud)
     vector_fo = frecuencia_obs(vector_nros_aleatorios, vector_li, vector_ls, maximo)
     vector_fe = []
     print(vector_fo)
