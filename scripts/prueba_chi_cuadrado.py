@@ -129,14 +129,15 @@ from scripts.soporte import *
 
 def prueba_ji_cuadrado(vector_nros_aleatorios, cantidad_intervalos,
                        tipo_dist, variable_expo=None, valor_variable_expo=None):
-    maximo = (Decimal(max(vector_nros_aleatorios))).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP)
+    maximo = max(vector_nros_aleatorios)
     print("maximo: ", maximo)
-    minimo = (Decimal(min(vector_nros_aleatorios))).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP)
+    minimo = min(vector_nros_aleatorios)
     print("minimo: ", minimo)
     vector_li, vector_ls, amplitud, vector_nro_intervalo = limites(minimo, maximo, cantidad_intervalos)
-    print("amplitud ", amplitud)
+    print("amplitud: ", amplitud)
     vector_fo = frecuencia_obs(vector_nros_aleatorios, vector_li, vector_ls, maximo)
     vector_fe = []
+    print(vector_fo)
 
     fe_menor_5 = False
     if tipo_dist == 'uniforme':
@@ -150,7 +151,7 @@ def prueba_ji_cuadrado(vector_nros_aleatorios, cantidad_intervalos,
     elif tipo_dist == 'exponencial':
         lambd = valor_variable_expo
         if variable_expo == 2:
-            lambd = (Decimal(1 / valor_variable_expo)).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP)
+            lambd = 1 / valor_variable_expo
         vector_fe, fe_menor_5 = frecuencia_esp_expo(vector_li, vector_ls, lambd, len(vector_nros_aleatorios))
 
     vector_fo_ag = None

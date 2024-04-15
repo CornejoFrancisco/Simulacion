@@ -155,10 +155,16 @@ def intervalos():
     print(vec_li)
     print(vec_ls)
 
-intervalos()
+#intervalos()
 
-x = 12.12355
+"""x = 12.12355
 a = 2.9704
 b = 0.8726
-print(random())
-print((Decimal(str(a + b))).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP))
+#print(random())
+#print((Decimal(str(a + b))).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP))
+
+print(list(map(lambda x: (Decimal(str(x))).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP), [-0.6140493547080164, 0.4299944755018261, 1.4740383057116686, 2.518082135921511, 3.5621259661313536, 4.606169796341196, 5.6502136265510385, 6.694257456760881, 7.7383012869707235, 8.782345117180565, 9.826388947390425])))
+
+def redondeo_manual(x):
+    x = str(x)"""
+

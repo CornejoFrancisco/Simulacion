@@ -1,21 +1,50 @@
+from decimal import Decimal, ROUND_HALF_UP
+
 import plotly.graph_objects as go
+import plotly.express as px
+from Tools.demo import vector
+
+from scripts.soporte import *
 from plotly.subplots import make_subplots
 
+def grafico_histograma_frecuencias(amplitud, tipo_dist, vector_li_ls, vector_nros):
 
-def grafico_histograma_frecuencias(vector_fo, minimo, maximo, amplitud, vector_li_ls, tipo_dist):
+    """print(vector_li_ls)
+    amplitud = redondeo(amplitud)
+    print(amplitud)
+    fig = go.Figure(data=go.Bar(
+                            x=vector_li_ls,
+                            y=vector_fo,
+
+                            marker=dict(color="lightcoral",
+                                        line=dict(color='black', width=1)),
+                            width=amplitud
+                            ))
+    fig.update_layout(title_text="Histograma de frecuencias de la variable aleatoria con distribucion "
+                                 + tipo_dist, title_x=0.5,
+                      xaxis_title="Intervalos de frecuencias",
+                      xaxis=dict(tickfont=dict(size=15)
+                                 ))
+    fig.write_html('histograma.html', auto_open=True)"""
+    print(vector_li_ls)
     marcadores_x = dict(tickvals=vector_li_ls)
-    ls = max(maximo, max(vector_li_ls))
-    fig = go.Figure(data=go.Histogram(x=vector_fo,
-                                      xbins=dict(start=min(vector_li_ls), end=maximo, size=amplitud),
+
+    max_i = vector_nros.index(max(vector_nros))
+    vector_nros[max_i] = max(vector_nros) - 0.0001
+
+    fig = go.Figure(data=go.Histogram(x=vector_nros,
+                                      xbins=dict(start=min(vector_li_ls), end=max(vector_li_ls), size=amplitud),
                                       marker=dict(color="lightcoral",
                                                   line=dict(color='black', width=1))
                                       ))
+    print(redondeo_vector_text(vector_li_ls))
     fig.update_layout(title_text="Histograma de frecuencias de la variable aleatoria con distribucion "
                                  + tipo_dist, title_x=0.5,
-                      xaxis_title="Intervalos de frecuencias"
+                      xaxis_title="Intervalos de frecuencias",
+                      xaxis=dict(
+                          ticktext=redondeo_vector_text(vector_li_ls))
                       )
     fig.update_xaxes(marcadores_x)
-
     fig.write_html('histograma.html', auto_open=True)
 
 
