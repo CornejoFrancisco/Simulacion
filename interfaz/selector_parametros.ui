@@ -176,6 +176,9 @@
         <property name="maximum">
          <number>999999999</number>
         </property>
+        <property name="stepType">
+         <enum>QAbstractSpinBox::DefaultStepType</enum>
+        </property>
        </widget>
       </item>
       <item row="5" column="0">

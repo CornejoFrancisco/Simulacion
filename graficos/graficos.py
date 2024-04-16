@@ -7,41 +7,9 @@ from Tools.demo import vector
 from scripts.soporte import *
 from plotly.subplots import make_subplots
 
-def grafico_histograma_frecuencias(amplitud, tipo_dist, vector_li_ls, vector_fo):
+def grafico_histograma_frecuencias(tipo_dist, vector_li_ls, vector_fo):
 
     print(vector_li_ls)
-    amplitud = redondeo(amplitud)
-    print(amplitud)
-    """fig = make_subplots(
-        rows=2, cols=1,
-        shared_xaxes=True,
-        vertical_spacing=0.03,
-        specs=[[{"type": "bar"}],
-               [{"type": "bar"}]]
-    )
-    fig.add_trace(
-        go.Bar(
-            x=vector_li_ls,
-            y=vector_fo,
-            marker=dict(color="lightcoral",
-                        line=dict(color='black', width=1)),
-        ),
-        row=1, col=1
-    )
-    fig.add_trace(
-        go.Bar(
-            x=vector_li_ls,
-            y=vector_fo,
-            marker=dict(color="lightcoral",
-                        line=dict(color='black', width=1)),
-        ),
-        row=2, col=1
-    )
-    fig.update_layout(
-        height=800,
-        showlegend=False,
-        title_text="Bitcoin mining stats for 180 days",
-    )"""
     fig = go.Figure(data=go.Bar(
                             x=vector_li_ls,
                             y=vector_fo,
@@ -52,6 +20,7 @@ def grafico_histograma_frecuencias(amplitud, tipo_dist, vector_li_ls, vector_fo)
     fig.update_layout(title_text="Histograma de frecuencias de la variable aleatoria con distribucion "
                                  + tipo_dist, title_x=0.5,
                       xaxis_title="Intervalos de frecuencias",
+                      yaxis_title="Frecuencias observadas",
                       xaxis=dict(tickfont=dict(size=10)),
                       bargap=0.0)
     fig.write_html('graficos.html', auto_open=True)
@@ -85,7 +54,7 @@ def tabla(df, tipo_dist):
         header=dict(values=header),
         cells=dict(values=data_values)
     ))
-    print("falla al imprimir")
+
     fig.update_layout(title_text="Tabla de frecuencias y prueba ji cuadrado "
                                  + tipo_dist, title_x=0.5)
     fig.write_html('tabla ji_cuadrado.html', auto_open=True)
@@ -119,8 +88,8 @@ def tabla(df, tipo_dist):
 
 
 def tabla_nros_aleatorios(df, tipo_dist):
-    intervalos = list(map(lambda x: x + 1, df.index.values.tolist()))
-    data_values = [intervalos] + list(df.transpose().values.tolist())
+    indice = list(map(lambda x: x + 1, df.index.values.tolist()))
+    data_values = [indice] + list(df.transpose().values.tolist())
     header = ["indice nro aleatorio"] + list(df.columns)
 
     fig = go.Figure(data=go.Table(

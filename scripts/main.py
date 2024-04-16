@@ -11,6 +11,7 @@ def generar_distribucion_uniforme(params):
 
     vector_nros_aleatorios_uniforme = generar_vector_uniforme(valor_a, valor_b, cantidad_nros)
     data = prueba_ji_cuadrado(vector_nros_aleatorios_uniforme, cantidad_intervalos, "uniforme")
+    data["cantidad_intervalos"] = cantidad_intervalos
     vector_li_ls = gen_vector_li_ls(data["vector_li"], data["vector_ls"])
 
     dict_df_serie_unif = {
@@ -29,7 +30,7 @@ def generar_distribucion_uniforme(params):
     tabla(df_final, "Uniforme")
     print(vector_li_ls)
 
-    grafico_histograma_frecuencias(data["amplitud"], "Uniforme", vector_li_ls,
+    grafico_histograma_frecuencias("Uniforme", vector_li_ls,
                                    data["vector_fo"])
 
 
@@ -39,6 +40,7 @@ def generar_distribucion_exponencial(params):
     print("hace vector al")
     data = prueba_ji_cuadrado(vector_nros_aleatorios_expo, params["cantidad_intervalos"],"exponencial",
                                           params["opcion_dist"], params["valor_op_dist"])
+    data["cantidad_intervalos"] = params["cantidad_intervalos"]
     vector_li_ls = gen_vector_li_ls(data["vector_li"], data["vector_ls"])
 
     dict_df_serie_expo = {
@@ -56,17 +58,16 @@ def generar_distribucion_exponencial(params):
     df_final = create_df_final(data)
     tabla(df_final, "Exponencial")
 
-    grafico_histograma_frecuencias(data["amplitud"], "Normal", vector_li_ls,
+    grafico_histograma_frecuencias("Normal", vector_li_ls,
                                    data["vector_fo"])
 
 
 def generar_distribucion_normal(params):
-    cantidad_nros = params["cantidad_nros"]
-    vector_nros_aleatorios_normal = generar_vector_normal(cantidad_nros,
+    vector_nros_aleatorios_normal = generar_vector_normal(params["cantidad_nros"],
                                                           params["desviacion"], params["media"])
 
     data = prueba_ji_cuadrado(vector_nros_aleatorios_normal, params["cantidad_intervalos"], "normal")
-
+    data["cantidad_intervalos"] = params["cantidad_intervalos"]
     vector_li_ls = gen_vector_li_ls(data["vector_li"], data["vector_ls"])
 
     dict_df_serie_norm = {
@@ -85,4 +86,4 @@ def generar_distribucion_normal(params):
     df_final = create_df_final(data)
     tabla(df_final, "Normal")
     print(vector_nros_aleatorios_normal)
-    grafico_histograma_frecuencias(data["amplitud"], "Normal", vector_li_ls, data["vector_fo"])
+    grafico_histograma_frecuencias("Normal", vector_li_ls, data["vector_fo"])
