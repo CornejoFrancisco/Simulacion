@@ -51,8 +51,8 @@ def tabla(df, tipo_dist):
     header = list(df.columns)
 
     fig = go.Figure(data=go.Table(
-        header=dict(values=header),
-        cells=dict(values=data_values)
+        header=dict(values=header, font=dict(size=12)),
+        cells=dict(values=data_values, font=dict(size=10))
     ))
 
     fig.update_layout(title_text="Tabla de frecuencias y prueba ji cuadrado "
@@ -93,8 +93,8 @@ def tabla_nros_aleatorios(df, tipo_dist):
     header = ["indice nro aleatorio"] + list(df.columns)
 
     fig = go.Figure(data=go.Table(
-        header=dict(values=header),
-        cells=dict(values=data_values)
+        header=dict(values=header, font=dict(size=12)),
+        cells=dict(values=data_values, font=dict(size=10))
     ))
     fig.update_layout(title_text="Tabla de valores de la variable aleatoria con distribucion "
                                  + tipo_dist, title_x=0.5)

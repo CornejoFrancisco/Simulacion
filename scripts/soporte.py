@@ -208,7 +208,6 @@ def calcular_chi(vector_chi):
 
 
 def create_df_final(dict_data):
-    print("Entra aca por lo menos")
     minimo = redondeo(dict_data["minimo"])
     maximo = redondeo(dict_data["maximo"])
     amplitud = redondeo(dict_data["amplitud"])
@@ -222,10 +221,51 @@ def create_df_final(dict_data):
     fe_menor_5 = dict_data["fe_menor_5"]
     cantidad_intervalos = dict_data["cantidad_intervalos"]
     rango = redondeo(dict_data["rango"])
-    vector_relleno_frecuencias = ["" for i in range(len(vector_li) - 1)]
-    vector_relleno_datos_entrada = ["" for i in range(len(vector_li) - 5)]
-    datos_entrada = [minimo, maximo, rango, cantidad_intervalos, amplitud ] + vector_relleno_datos_entrada
-    titulos_entrada = ["Minimo", "Maximo", "Amplitud", "Cantidad de intervalos", "Rango"] + vector_relleno_datos_entrada
+    n = dict_data["n"]
+    tipo_dist = dict_data["tipo_dist"]
+
+    datos_entrada = [n, minimo, maximo, amplitud, rango, cantidad_intervalos]
+    titulos_entrada = ["n", "Minimo", "Maximo", "Amplitud", "Rango", "n° intervalos"]
+
+    if tipo_dist == "normal":
+        media_param = dict_data["media_param"]
+        desviacion_param = dict_data["desviacion_param"]
+        media_calc = redondeo(dict_data["media_calc"])
+        desviacion_calc = redondeo(dict_data["desviacion_calc"])
+        datos_normal = [media_param, desviacion_param, media_calc, desviacion_calc]
+        titulos_normal = ["media param", "desviacion param", "media calc", "desviacion calc"]
+        datos_entrada = datos_entrada + datos_normal
+        titulos_entrada = titulos_entrada + titulos_normal
+
+    elif tipo_dist == "exponencial":
+        media_calc = redondeo(dict_data["media_calc"])
+        if "lambda" in dict_data:
+            var_expo = "lambda"
+            valor_var_expo = dict_data["lambda"]
+        else:
+            var_expo = "media expo"
+            valor_var_expo = dict_data["media_expo"]
+        datos_expo = [media_calc, valor_var_expo]
+        titulos_expo = ["media calc", var_expo]
+        datos_entrada += datos_expo
+        titulos_entrada += titulos_expo
+
+    elif tipo_dist == "uniforme":
+        print(tipo_dist)
+        valor_a = dict_data["A"]
+        valor_b = dict_data["B"]
+        datos_uniforme = [valor_a, valor_b]
+        titulos_uniforme = ["A", "B"]
+        print(len(datos_entrada))
+        datos_entrada += datos_uniforme
+        titulos_entrada += titulos_uniforme
+        print(len(datos_entrada))
+
+    vector_relleno_frecuencias = ["" for i in range(len(vector_li))]
+    vector_relleno_datos_entrada = ["" for i in range(len(vector_li))]
+    titulos_entrada_rell = titulos_entrada + vector_relleno_datos_entrada
+    datos_entrada_rell = datos_entrada + vector_relleno_datos_entrada
+
     if fe_menor_5:
         vector_int_ag = dict_data["vector_int_ag"]
         vector_fo_ag = redondeo_vector(dict_data["vector_fo_ag"])
@@ -243,8 +283,8 @@ def create_df_final(dict_data):
                 "frecuencia esperada ag", "((O-E)^2)/ E", "valor chi"]
         df = pd.DataFrame(
             list(
-                zip(titulos_entrada, datos_entrada, vector_nro_intervalo, vector_li, vector_ls, vector_fo, vector_fe, vector_int_ag,
-                    vector_fo_ag, vector_fe_ag, vector_chi, valor_chi)
+                zip(titulos_entrada_rell, datos_entrada_rell, vector_nro_intervalo, vector_li, vector_ls, vector_fo,
+                    vector_fe, vector_int_ag, vector_fo_ag, vector_fe_ag, vector_chi, valor_chi)
             ),
             columns=head)
         print("generar la tabla")
@@ -257,7 +297,7 @@ def create_df_final(dict_data):
                 "frecuencia esperada", "((O-E)^2)/ E", "valor chi"]
         df = pd.DataFrame(
             list(
-                zip(titulos_entrada, datos_entrada, vector_nro_intervalo, vector_li, vector_ls, vector_fo, vector_fe,
+                zip(titulos_entrada_rell, datos_entrada_rell, vector_nro_intervalo, vector_li, vector_ls, vector_fo, vector_fe,
                     vector_chi, valor_chi)
             ),
             columns=head)

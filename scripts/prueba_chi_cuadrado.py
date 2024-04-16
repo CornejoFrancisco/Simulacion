@@ -133,18 +133,19 @@ def prueba_ji_cuadrado(vector_nros_aleatorios, cantidad_intervalos,
     minimo = min(vector_nros_aleatorios)
     vector_li, vector_ls, amplitud, vector_nro_intervalo, rango = limites(minimo, maximo, cantidad_intervalos)
     vector_fo = frecuencia_obs(vector_nros_aleatorios, vector_li, vector_ls)
-    vector_fe = []
     print(vector_fo)
 
+    vector_fe = []
     fe_menor_5 = False
+    media = calc_media(vector_nros_aleatorios)
+    desviacion = calc_desviacion(vector_nros_aleatorios, media)
+
     if tipo_dist == 'uniforme':
         vector_fe, fe_menor_5 = frecuencia_esp_unif(len(vector_nros_aleatorios), cantidad_intervalos)
 
     elif tipo_dist == 'normal':
-        media = calc_media(vector_nros_aleatorios)
-        desviacion = calc_desviacion(vector_nros_aleatorios, media)
-        vector_fe, fe_menor_5 = frecuencia_esp_norm(vector_li, vector_ls, media, desviacion,
-                                                    len(vector_nros_aleatorios))
+        vector_fe, fe_menor_5 = frecuencia_esp_norm(vector_li, vector_ls, media, desviacion, len(vector_nros_aleatorios))
+
     elif tipo_dist == 'exponencial':
         lambd = valor_variable_expo
         if variable_expo == 2:
@@ -177,7 +178,9 @@ def prueba_ji_cuadrado(vector_nros_aleatorios, cantidad_intervalos,
         "minimo": minimo,
         "amplitud": amplitud,
         "rango": rango,
-        "fe_menor_5": fe_menor_5
+        "fe_menor_5": fe_menor_5,
+        "media_calc": media,
+        "desviacion_calc": desviacion
     }
 
     return data

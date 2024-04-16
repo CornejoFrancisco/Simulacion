@@ -12,6 +12,11 @@ def generar_distribucion_uniforme(params):
     vector_nros_aleatorios_uniforme = generar_vector_uniforme(valor_a, valor_b, cantidad_nros)
     data = prueba_ji_cuadrado(vector_nros_aleatorios_uniforme, cantidad_intervalos, "uniforme")
     data["cantidad_intervalos"] = cantidad_intervalos
+    data["n"] = len(vector_nros_aleatorios_uniforme)
+    data["tipo_dist"] = "uniforme"
+    data["A"] = valor_a
+    data["B"] = valor_b
+
     vector_li_ls = gen_vector_li_ls(data["vector_li"], data["vector_ls"])
 
     dict_df_serie_unif = {
@@ -37,12 +42,17 @@ def generar_distribucion_uniforme(params):
 def generar_distribucion_exponencial(params):
     vector_nros_aleatorios_expo = generador_vector_exponencial(params["opcion_dist"],
                                                                params["valor_op_dist"], params["cantidad_nros"])
-    print("hace vector al")
     data = prueba_ji_cuadrado(vector_nros_aleatorios_expo, params["cantidad_intervalos"],"exponencial",
                                           params["opcion_dist"], params["valor_op_dist"])
     data["cantidad_intervalos"] = params["cantidad_intervalos"]
-    vector_li_ls = gen_vector_li_ls(data["vector_li"], data["vector_ls"])
+    data["n"] = len(vector_nros_aleatorios_expo)
+    data["tipo_dist"] = "exponencial"
+    if params["opcion_dist"] == 1:
+        data["lambda"] = params["valor_op_dist"]
+    else:
+        data["media_expo"] = params["opcion_dist"]
 
+    vector_li_ls = gen_vector_li_ls(data["vector_li"], data["vector_ls"])
     dict_df_serie_expo = {
         "tipo_distribucion": "Exponencial",
         "vector_serie_nros_aleatorios": vector_nros_aleatorios_expo
@@ -68,6 +78,11 @@ def generar_distribucion_normal(params):
 
     data = prueba_ji_cuadrado(vector_nros_aleatorios_normal, params["cantidad_intervalos"], "normal")
     data["cantidad_intervalos"] = params["cantidad_intervalos"]
+    data["n"] = len(vector_nros_aleatorios_normal)
+    data["tipo_dist"] = "normal"
+    data["media_param"] = params["media"]
+    data["desviacion_param"] = params["desviacion"]
+
     vector_li_ls = gen_vector_li_ls(data["vector_li"], data["vector_ls"])
 
     dict_df_serie_norm = {
