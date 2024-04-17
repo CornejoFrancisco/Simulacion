@@ -1,5 +1,5 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QDialog
+from PyQt6.QtWidgets import QApplication, QDialog, QMessageBox
 from interfaz.selector_parametros import *
 from scripts.main import *
 
@@ -10,7 +10,16 @@ class selector_parametros(QDialog):
         self.ui = Dialogo()
         self.ui.setupUi(self)
 
-        self.params_unif = {"cantidad_nros": None, "valor_a": None, "valor_b": None, "cantidad_intervalos": None}
+        self.cantidad_nros = 0
+        self.valor_a = 0
+        self.valor_b = 0
+        self.cantidad_intervalos = 0
+        self.opcion_dist_expo = 0
+        self.valor_op_dist_expo = 0
+        self.media = 0
+        self.desviacion = 0
+
+        self.params_unif = {"cantidad_nros": 0, "valor_a": None, "valor_b": None, "cantidad_intervalos": None}
         self.params_expo = {"cantidad_nros": None, "opcion_dist": None, "valor_op_dist": None,
                             "cantidad_intervalos": None}
         self.params_norm = {"cantidad_nros": None, "media": None, "desviacion": None, "cantidad_intervalos": None}
@@ -27,8 +36,12 @@ class selector_parametros(QDialog):
 
         self.ui.btn_generar.clicked.connect(self.send_data)
 
-    def dist_unif(self):
+    def show_alert(self, mensaje):
+        alert = QMessageBox()
+        alert.setText(mensaje)
+        alert.exec()
 
+    def dist_unif(self):
         self.params_unif.clear()
         self.show_params_unif()
 
@@ -52,9 +65,11 @@ class selector_parametros(QDialog):
         self.extract_cant_intervalos()
 
     def set_value_opt_expo(self, value):
+        self.valor_op_dist_expo = value
         self.params_expo["valor_op_dist"] = value
 
     def set_opt_expo(self, value):
+        self.opcion_dist_expo = value
         self.params_expo["opcion_dist"] = value
 
     def dist_norm(self):
@@ -76,27 +91,49 @@ class selector_parametros(QDialog):
         self.ui.rd_btn_25.toggled.connect(lambda: self.set_cant_intervals(value=25))
 
     def set_value_media(self, value):
+        self.media = value
         self.params_norm["media"] = value
 
     def set_value_desviacion(self, value):
+        self.desviacion = value
         self.params_norm["desviacion"] = value
 
-    def send_data(self):
+    def validate_data_unif(self):
+        todo_ok = True
+        if self.cantidad_nros is 0:
+            todo_ok = False
+            self.show_alert("Error , Debe ingresar una cantidad de numeros a generar positiva")
+        if self.valor_a > self.valor_b:
+            todo_ok = False
+            self.show_alert("Error , el valor de B debe ser mayor A")
+        if self.valor_a is 0:
+            todo_ok = False
+            self.show_alert("Error , debe ingresar un valor para A")
+        if self.valor_b is 0:
+            todo_ok = False
+            self.show_alert("Error , debe ingresar un valor para B")
+        if self.cantidad_intervalos is 0:
+            todo_ok = False
+            self.show_alert("Error , debe seleccionar una cantidad de intervalos")
+        return todo_ok
 
+    def send_data(self):
+        print(self.valor_b, self.valor_a)
         if self.ui.rd_btn_distr_norm.isChecked():
-            print("PARAMETROS NORMAL: ", self.params_norm)
-            generar_distribucion_normal(self.params_norm)
+                print("PARAMETROS NORMAL: ", self.params_norm)
+                generar_distribucion_normal(self.params_norm)
 
         elif self.ui.rd_btn_distr_unif.isChecked():
-            print("PARAMETROS UNIFORME: ", self.params_unif)
-            generar_distribucion_uniforme(self.params_unif)
+            if self.validate_data_unif():
+                print("PARAMETROS UNIFORME: ", self.params_unif)
+                generar_distribucion_uniforme(self.params_unif)
 
         elif self.ui.rd_btn_distr_expo.isChecked():
             print("PARAMETROS_EXPONENCIAL: ", self.params_expo)
             generar_distribucion_exponencial(self.params_expo)
 
     def set_cant_intervals(self, value):
-
+        self.cantidad_intervalos = value
         if self.ui.rd_btn_distr_norm.isChecked():
             self.params_norm["cantidad_intervalos"] = value
 
@@ -107,7 +144,7 @@ class selector_parametros(QDialog):
             self.params_expo["cantidad_intervalos"] = value
 
     def set_cant_nros(self, value):
-
+        self.cantidad_nros = value
         if self.ui.rd_btn_distr_norm.isChecked():
             self.params_norm["cantidad_nros"] = value
 
@@ -118,15 +155,24 @@ class selector_parametros(QDialog):
             self.params_expo["cantidad_nros"] = value
 
     def set_valor_a(self, value):
+        self.valor_a = value
         self.params_unif["valor_a"] = value
 
     def set_valor_b(self, value):
+        self.valor_b = value
         self.params_unif["valor_b"] = value
 
     def clear_dict(self, dic):
-
         for clave in dic:
             dic[clave] = None
+        self.cantidad_nros = None
+        self.valor_a = None
+        self.valor_b = None
+        self.cantidad_intervalos = None
+        self.opcion_dist_expo = None
+        self.valor_op_dist_expo = None
+        self.media = None
+        self.desviacion = None
 
     def show_params_unif(self):
         for i in range(self.ui.grid_params_uniforme.count()):
