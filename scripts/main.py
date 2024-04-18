@@ -33,7 +33,6 @@ def generar_distribucion_uniforme(params):
 
     df_final = create_df_final(data)
     tabla(df_final, "Uniforme")
-    print(vector_li_ls)
 
     grafico_histograma_frecuencias("Uniforme", vector_li_ls,
                                    data["vector_fo"])
@@ -42,15 +41,17 @@ def generar_distribucion_uniforme(params):
 def generar_distribucion_exponencial(params):
     vector_nros_aleatorios_expo = generador_vector_exponencial(params["opcion_dist"],
                                                                params["valor_op_dist"], params["cantidad_nros"])
-    data = prueba_ji_cuadrado(vector_nros_aleatorios_expo, params["cantidad_intervalos"],"exponencial",
+    data = prueba_ji_cuadrado(vector_nros_aleatorios_expo, params["cantidad_intervalos"], "exponencial",
                                           params["opcion_dist"], params["valor_op_dist"])
+
     data["cantidad_intervalos"] = params["cantidad_intervalos"]
     data["n"] = len(vector_nros_aleatorios_expo)
     data["tipo_dist"] = "exponencial"
-    if params["opcion_dist"] == 1:
+
+    if params["opcion_dist"] == "Lambda":
         data["lambda"] = params["valor_op_dist"]
     else:
-        data["media_expo"] = params["opcion_dist"]
+        data["media_expo"] = params["valor_op_dist"]
 
     vector_li_ls = gen_vector_li_ls(data["vector_li"], data["vector_ls"])
     dict_df_serie_expo = {
@@ -100,5 +101,4 @@ def generar_distribucion_normal(params):
     tabla_fre_acum(df_frec_acum, "Normal")"""
     df_final = create_df_final(data)
     tabla(df_final, "Normal")
-    print(vector_nros_aleatorios_normal)
     grafico_histograma_frecuencias("Normal", vector_li_ls, data["vector_fo"])

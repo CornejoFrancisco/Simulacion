@@ -134,7 +134,7 @@ def prueba_ji_cuadrado(vector_nros_aleatorios, cantidad_intervalos,
     vector_li, vector_ls, amplitud, vector_nro_intervalo, rango = limites(minimo, maximo, cantidad_intervalos)
     vector_fo = frecuencia_obs(vector_nros_aleatorios, vector_li, vector_ls)
     print(vector_fo)
-
+    print(vector_nros_aleatorios)
     vector_fe = []
     fe_menor_5 = False
     media = calc_media(vector_nros_aleatorios)
@@ -148,7 +148,7 @@ def prueba_ji_cuadrado(vector_nros_aleatorios, cantidad_intervalos,
 
     elif tipo_dist == 'exponencial':
         lambd = valor_variable_expo
-        if variable_expo == 2:
+        if variable_expo == "Media":
             lambd = 1 / valor_variable_expo
         vector_fe, fe_menor_5 = frecuencia_esp_expo(vector_li, vector_ls, lambd, len(vector_nros_aleatorios))
 

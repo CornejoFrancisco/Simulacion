@@ -153,12 +153,12 @@ def generar_vector_uniforme(a, b, cantidad_nros):
 
 def generador_vector_exponencial(variable_select, valor_variable, cantidad_nros):
     vector_exponencial = []
-    if variable_select == 1:
+    if variable_select == "Lambda":
         for i in range(cantidad_nros):
             rnd = random()
             rnd_expo = -(1 / valor_variable) * (math.log(1 - rnd))
             vector_exponencial.append(rnd_expo)
-    elif variable_select == 2:
+    elif variable_select == "Media":
         for i in range(cantidad_nros):
             rnd = random()
             rnd_expo = -valor_variable * (math.log(1 - rnd))
@@ -251,15 +251,12 @@ def create_df_final(dict_data):
         titulos_entrada += titulos_expo
 
     elif tipo_dist == "uniforme":
-        print(tipo_dist)
         valor_a = dict_data["A"]
         valor_b = dict_data["B"]
         datos_uniforme = [valor_a, valor_b]
         titulos_uniforme = ["A", "B"]
-        print(len(datos_entrada))
         datos_entrada += datos_uniforme
         titulos_entrada += titulos_uniforme
-        print(len(datos_entrada))
 
     vector_relleno_frecuencias = ["" for i in range(len(vector_li))]
     vector_relleno_datos_entrada = ["" for i in range(len(vector_li))]
@@ -287,7 +284,6 @@ def create_df_final(dict_data):
                     vector_fe, vector_int_ag, vector_fo_ag, vector_fe_ag, vector_chi, valor_chi)
             ),
             columns=head)
-        print("generar la tabla")
         return df
 
     else:
@@ -301,7 +297,6 @@ def create_df_final(dict_data):
                     vector_chi, valor_chi)
             ),
             columns=head)
-        print("generar la tabla")
         return df
 
 
@@ -358,7 +353,7 @@ def gen_vector_li_ls(vector_li, vector_ls):
         if i == 0:
             li_ls = f"[{vector_li_r[i]}-{vector_ls_r[i]}]"
         else:
-            li_ls = f"({vector_li_r[i]}\n-{vector_ls_r[i]}]"
+            li_ls = f"({vector_li_r[i]}-{vector_ls_r[i]}]"
         vector_li_ls.append(li_ls)
     return vector_li_ls
 

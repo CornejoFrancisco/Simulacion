@@ -1,5 +1,5 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QDialog, QMessageBox, QDoubleSpinBox, QSpinBox, QRadioButton
+from PyQt6.QtWidgets import QApplication, QDialog, QMessageBox, QDoubleSpinBox, QSpinBox, QComboBox
 from interfaz.selector_parametros import *
 from scripts.main import *
 
@@ -13,8 +13,8 @@ class selector_parametros(QDialog):
         self.cantidad_nros = 0
         self.valor_a = 0
         self.valor_b = 0
-        self.cantidad_intervalos = 0
-        self.opcion_dist_expo = 0
+        self.cantidad_intervalos = 10
+        self.opcion_dist_expo = "Lambda"
         self.valor_op_dist_expo = 0
         self.media = 0
         self.desviacion = 0
@@ -28,6 +28,8 @@ class selector_parametros(QDialog):
         self.ui.rd_btn_distr_unif.toggled.connect(self.dist_unif)
         self.ui.rd_btn_distr_expo.toggled.connect(self.dist_expo)
         self.ui.rd_btn_distr_norm.toggled.connect(self.dist_norm)
+
+        self.ui.cmb_cant_intervalos.currentIndexChanged.connect(self.set_cant_intervals)
 
         self.ui.btn_generar.clicked.connect(self.send_data)
 
@@ -44,25 +46,24 @@ class selector_parametros(QDialog):
         self.ui.spn_box_a_unif.valueChanged.connect(self.set_valor_a)
         self.ui.spn_box_b_unif.valueChanged.connect(self.set_valor_b)
 
-        self.extract_cant_intervalos()
-
     def dist_expo(self):
         self.clear_parametros()
         self.show_params_expo()
         self.ui.spn_box_cant_nros_expo.valueChanged.connect(self.set_cant_nros)
 
-        self.ui.rd_btn_lambda_expo.toggled.connect(lambda: self.set_opt_expo(value=1))
-        self.ui.rd_btn_media_expo.toggled.connect(lambda: self.set_opt_expo(value=2))
+        self.ui.cmb_lambda_media.currentIndexChanged.connect(self.set_opt_expo)
 
         self.ui.spn_box_media_lambda_expo.valueChanged.connect(self.set_value_opt_expo)
-
-        self.extract_cant_intervalos()
 
     def set_value_opt_expo(self, value):
         self.valor_op_dist_expo = value
 
-    def set_opt_expo(self, value):
-        self.opcion_dist_expo = value
+    def set_opt_expo(self):
+        index = self.ui.cmb_lambda_media.currentIndex()
+        if index == 0:
+            self.opcion_dist_expo = self.ui.cmb_lambda_media.itemText(index)
+        elif index == 1:
+            self.opcion_dist_expo = self.ui.cmb_lambda_media.itemText(index)
 
     def dist_norm(self):
         self.clear_parametros()
@@ -72,14 +73,6 @@ class selector_parametros(QDialog):
 
         self.ui.spn_box_media_norm.valueChanged.connect(self.set_value_media)
         self.ui.spn_box_desv_norm.valueChanged.connect(self.set_value_desviacion)
-
-        self.extract_cant_intervalos()
-
-    def extract_cant_intervalos(self):
-        self.ui.rd_btn_10.toggled.connect(lambda: self.set_cant_intervals(value=10))
-        self.ui.rd_btn_15.toggled.connect(lambda: self.set_cant_intervals(value=15))
-        self.ui.rd_btn_20.toggled.connect(lambda: self.set_cant_intervals(value=20))
-        self.ui.rd_btn_25.toggled.connect(lambda: self.set_cant_intervals(value=25))
 
     def set_value_media(self, value):
         self.media = value
@@ -106,19 +99,15 @@ class selector_parametros(QDialog):
 
     def validar_datos_expo(self):
         todo_ok = True
-        if self.opcion_dist_expo == 0:
-            todo_ok = False
-            self.show_alert("Error , debe seleccionar si usar lambda o la media")
-        if self.valor_op_dist_expo <= 0 and self.opcion_dist_expo == 1:
+        if self.valor_op_dist_expo <= 0 and self.opcion_dist_expo == "Lambda":
             todo_ok = False
             self.show_alert("Error , el valor de lambda debe ser mayor a cero")
-        if self.valor_op_dist_expo <= 0 and self.opcion_dist_expo == 2:
+        if self.valor_op_dist_expo <= 0 and self.opcion_dist_expo == "Media":
             todo_ok = False
             self.show_alert("Error , el valor de la media debe ser mayor a cero")
         return todo_ok
 
     def send_data(self):
-        print(self.cantidad_intervalos)
         if self.validar_datos_comunes():
             if self.ui.rd_btn_distr_norm.isChecked():
                 params_norm = {"cantidad_nros": self.cantidad_nros , "media": self.media,
@@ -141,8 +130,10 @@ class selector_parametros(QDialog):
                     print("PARAMETROS_EXPONENCIAL: ", params_expo)
                     generar_distribucion_exponencial(params_expo)
 
-    def set_cant_intervals(self, value):
-        self.cantidad_intervalos = value
+    def set_cant_intervals(self):
+        index = self.ui.cmb_cant_intervalos.currentIndex()
+        self.cantidad_intervalos = int(self.ui.cmb_cant_intervalos.itemText(index))
+        print(self.cantidad_intervalos)
 
     def set_cant_nros(self, value):
         self.cantidad_nros = value
@@ -157,7 +148,7 @@ class selector_parametros(QDialog):
         self.cantidad_nros = 0
         self.valor_a = 0
         self.valor_b = 0
-        self.opcion_dist_expo = 0
+        self.valor_op_dist_expo = 0
         self.media = 0
         self.desviacion = 0
 
@@ -174,7 +165,6 @@ class selector_parametros(QDialog):
         self.show_btn_generar()
 
     def show_params_expo(self):
-
         for i in range(self.ui.grid_params_exponencial.count()):
             widget = self.ui.grid_params_exponencial.itemAt(i).widget()
             if widget:
@@ -199,13 +189,8 @@ class selector_parametros(QDialog):
         self.show_btn_generar()
 
     def show_cantIntervalos(self):
-        for i in range(self.ui.lyt_h_lbl_cant_intervalos.count()):
-            widget = self.ui.lyt_h_lbl_cant_intervalos.itemAt(i).widget()
-            if widget:
-                widget.setHidden(False)
-
-        for i in range(self.ui.lyt_h_rd_btn_cant_intervalos.count()):
-            widget = self.ui.lyt_h_rd_btn_cant_intervalos.itemAt(i).widget()
+        for i in range(self.ui.layout_v_cant_intervalos.count()):
+            widget = self.ui.layout_v_cant_intervalos.itemAt(i).widget()
             if widget:
                 widget.setHidden(False)
 
@@ -231,12 +216,8 @@ class selector_parametros(QDialog):
                 widget.setHidden(True)
 
     def hide_cantIntervalos(self):
-        for i in range(self.ui.lyt_h_lbl_cant_intervalos.count()):
-            widget = self.ui.lyt_h_lbl_cant_intervalos.itemAt(i).widget()
-            if widget:
-                widget.setHidden(True)
-        for i in range(self.ui.lyt_h_rd_btn_cant_intervalos.count()):
-            widget = self.ui.lyt_h_rd_btn_cant_intervalos.itemAt(i).widget()
+        for i in range(self.ui.layout_v_cant_intervalos.count()):
+            widget = self.ui.layout_v_cant_intervalos.itemAt(i).widget()
             if widget:
                 widget.setHidden(True)
 
